@@ -1,0 +1,42 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    max-width: 100%;
+}
+.cont{
+    text-align: center;
+}
+img{
+    margin: .3rem;
+    justify-content: center;
+}
+.prod{
+    display: block;
+    justify-content: center;
+
+}
+.per{
+    margin:.5% auto;
+    display: inline-block;
+    justify-content: center;
+    border: 2px solid black;
+    
+}
+#pr{
+    max-width: 250px;
+    max-height: 250px;
+    width: 20rem;
+    height: 20rem;
+}
+.c{
+    max-width: 55px;
+    width: 20rem;
+}
+/* codigo para no tener las flechas en los input */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}

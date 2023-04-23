@@ -1,0 +1,116 @@
+{% include 'admin/caad.html' %}
+
+{% with messages= get_flashed_messages() %}
+
+{% if messages %}
+    <div class="alert alert-danger" role="alert">
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+    </div>
+{% endif %}
+
+{% endwith %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+                    <form method="post" action="/storeusu" enctype="multipart/form-data">
+                        <div class="card">
+                            <div class="card-header">
+                                Ingresar datos del empleado.
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Datos del empleado.</h5>
+                                <p class="card-text">
+                    
+                                    <div class="form-group">
+                                            <label for="txtNombre">Nombre:</label>
+                                            <input id="txtNombre" class="form-control" type="text" name="txtNombre">
+                                    </div>
+                                    <div class="form-group">
+                                            <label for="txtCorreo">Correo:</label>
+                                            <input id="txtCorreo" class="form-control" type="text" name="txtCorreo">
+                                    </div>
+                                    <div class="form-group">
+                                            <label for="txtContraseña">Contraseña:</label>
+                                            <input id="txtContraseña" class="form-control" type="text" name="txtContraseña">
+                                    </div>
+                                    <div class="form-group">
+                                            <label for="txtFoto">Foto:</label>
+                                            <input id="txtFoto" class="form-control" type="file" name="txtFoto">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="rango">rango:</label>
+                                        <input id="rango" class="form-control" type="text" name="rango">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-success" value="Ingresar">
+                                        <!--<a href="{{url_for('index')}}" class="btn btn-primary">Regresar</a>-->
+                                    </div>
+                                    
+                                </p>
+                            </div>
+                        </div>
+                      
+                    </form>
+
+             
+        </div>
+        <div class="col-9">
+            <div class="card">
+                 <div class="card-header">
+                     Lista de empleados
+                 </div>
+                 <div class="card-body">
+ 
+                    <div class="container">
+                        <div class="row">
+                                <table class= "table table-light">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nombre</th>
+                                            <th>Correo</th>
+                                            <th>Contraseña</th>
+                                            <th>Foto</th>
+                                            <th>Acciones</th>
+                            
+                                        <tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for empleado in empleados %}
+                                        <tr>
+                                            <td>{{empleado[0] }}</td>
+                                            <td>{{empleado[1] }}</td>
+                                            <td>{{empleado[2] }}</td>
+                                            <td>{{empleado[3] }}</td>
+                            
+                                            <td>
+                                                <img class="img-thumbnail" width="100" src="uploads/{{empleado[4] }}" alt="">
+                                                
+                                            </td>
+                                            <td>{{empleado[5] }}</td>
+                            
+                                            <td> <a class="btn btn-warning" href="/editempleados/{{empleado[0]}}">Editar</a> | 
+                                                <a onclick="return confirm('¿Desea borrar el empleado?')" class="btn btn-danger" href="/destroyempleados/{{empleado[0]}}">Eliminar</a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                        </form>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+ 
+                 </div>
+             </div>
+         </div>
+        
+    </div>
+</div>
+
+{% include 'admin/piead.html' %}

@@ -1,0 +1,47 @@
+{% include 'admin/caad.html' %}
+<body class="position-fixed">
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+               <div class="card">
+                    <div class="card-header">
+                        Lista de productos
+                    </div>
+                    <div class="card-body">
+    
+                        <table class="table table-light">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Nombre</th>
+                                    <th>Cantidad</th>
+                                    <th>Costo</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for producto in productos %}
+                                    
+                                <tr>
+                                    <td>{{producto[0] }}</td>
+                                    <td>{{producto[1] }}</td>
+                                    <td>{{producto[2] }}</td>
+                                    <td>{{producto[3] }}</td>
+                                    <td><a type="button" class="btn btn-warning" href="/edid/{{producto[0]}}">Editar</a> 
+                                    </td>
+                                    
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        </form>
+    
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <br>
+  {% include 'admin/piead.html' %}

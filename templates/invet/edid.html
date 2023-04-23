@@ -1,0 +1,51 @@
+{% include 'admin/caad.html' %}
+<br>
+<div class="col-5">
+    <div class="card">
+         <div class="card-header">
+             Agregar productos
+         </div>
+         <div class="card-body">
+             <form 
+             
+             {% if session[ 'rango' ]==1 %}
+               
+             action="/act"
+
+             {% endif %}
+             {% if session[ 'rango' ]==0 %}
+               
+             action="/act2"
+
+             {% endif %}
+             
+             method="post">
+                {% for producto in productos %}
+                 <div class="mb-3">
+                   <label for="Codigo" class="form-label">Codigo</label>
+                   <input type="text"  value="{{ producto[0] }}"
+                     class="form-control"  readonly=»readonly»  name="Codigo" id="CD" aria-describedby="helpId" placeholder="Codigo del producto">
+                 </div>
+                 <div class="mb-3">
+                     <label for="Nombre" class="form-label">Nombre</label>
+                     <input type="text"  value="{{ producto[1] }}"
+                       class="form-control" name="Nombre" id="NOM" aria-describedby="helpId" placeholder="Nombre del producto">
+                   </div>
+                   <div class="mb-3">
+                     <label for="cantidad" class="form-label">Cantidad</label>
+                     <input type="text"  value="{{ producto[2] }}"
+                       class="form-control" name="cantidad" id="CANT" aria-describedby="helpId" placeholder="Cantidad del producto">
+                   </div>
+                   <div class="mb-3">
+                     <label for="costo" class="form-label">Costo</label>
+                     <input type="text"  value="{{ producto[3] }}"
+                       class="form-control" name="costo" id="COST" aria-describedby="helpId" placeholder="Costo del producto">
+                   </div>
+                   <button type="submit" class="btn btn-warning">Editar</button>
+            {% endfor %}
+             </form>
+
+         </div>
+     </div>
+ </div>
+ {% include 'admin/piead.html' %}

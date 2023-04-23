@@ -1,0 +1,25 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#pr{
+    max-width:  350px;
+    max-height: 350px;
+    width:      40rem;
+    height:     40rem;
+}
+.prod{
+    display: block;
+    justify-content: center;
+
+}
+.per{
+    margin:.5% auto;
+    display: inline-block;
+    justify-content: center;
+    
+}
+.cont{
+    text-align: center;
+    margin:.5% auto;
+}

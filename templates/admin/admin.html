@@ -1,0 +1,20 @@
+{% include 'admin/caad.html' %}
+<br>
+<div class="p-5 bg-light">
+    <div class="container">
+        <h2 class="display-3">Bienvenido mi administrador</h2>
+        <h2 class="display-3"><strong>{{ session['usuario'] }}</strong></h2>
+        <p class="lead">Aqui tiene poder de todo el sistema de rango: {{ session['rango'] }}</p>
+        
+        {% if  session['rango']!=1 and  session['rango']!=0 %}
+            <p>No deberían existir</p>
+            <p>Solo rango 0 o 1 favor de hablar con un administrador de rango 1</p>
+        {% endif %}
+            
+        <hr class="my-2">
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="/agregar" type="button">Ver productos</a>
+        </p>
+    </div>
+</div>
+{% include 'admin/piead.html' %}

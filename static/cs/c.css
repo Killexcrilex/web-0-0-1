@@ -3,10 +3,10 @@
     padding: 0;
 }
 #pr{
-    max-width:  350px;
-    max-height: 350px;
-    width:      40rem;
-    height:     40rem;
+    max-width:  250px;
+    max-height: 250px;
+    width:      35rem;
+    height:     35rem;
 }
 .prod{
     display: block;
@@ -23,3 +23,43 @@
     text-align: center;
     margin:.5% auto;
 }
+#menu ul {
+    list-style:none;
+    margin:0;
+    padding:0;
+   }
+   
+   /* items del menu */
+   
+   #menu ul li {
+    background-color:#2e518b;
+   }
+   
+   /* enlaces del menu */
+   
+   #menu ul a {
+    display:block;
+    color:#fff;
+    text-decoration:none;
+    font-weight:400;
+    font-size:15px;
+    padding:10px;
+    font-family:"HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-transform:uppercase;
+    letter-spacing:1px;
+   }
+   
+   /* items del menu */
+   
+   #menu ul li {
+    position:relative;
+    float:left;
+    margin:0;
+    padding:0;
+   }
+   
+   /* efecto al pasar el ratón por los items del menu */
+   
+   #menu ul li:hover {
+    background:#5b78a7;
+   }

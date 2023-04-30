@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-04-2023 a las 06:56:08
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.0.28
+-- Tiempo de generación: 30-04-2023 a las 20:29:24
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,15 +30,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `administrador` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `horario` varchar(50) NOT NULL
+  `horario` varchar(50) NOT NULL,
+  `usuario` varchar(25) NOT NULL,
+  `contra` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `administrador`
 --
 
-INSERT INTO `administrador` (`id`, `nombre`, `horario`) VALUES
-(1, 'Francisco Cardenas', '8 a.m- 9.am');
+INSERT INTO `administrador` (`id`, `nombre`, `horario`, `usuario`, `contra`) VALUES
+(1, 'Francisco Cardenas', '8 a.m- 9.am', 'Frank', 'Frank');
 
 -- --------------------------------------------------------
 

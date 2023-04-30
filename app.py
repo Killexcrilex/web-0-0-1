@@ -32,15 +32,42 @@ def cerrar():
 # Ruta para iniciar sesion como admin
 @app.route("/admin")
 def admin():
-    # if not 'login' in session:
-    #     return redirect('/')
+    if not 'login' in session:
+        return redirect('/')
     return render_template('admin/admin.html')
 
 # Ruta de inicio de seccion correcto como admin
 @app.route("/Loginadmin")
 def Loginadmin():
-    # if 'login' in session:
-    #     return redirect('/admin')
+    if 'login' in session:
+        return redirect('/admin')
+    return render_template('admin/loginadmin.html')
+
+@app.route("/Loginadmin", methods=['POST'])
+def ad_log():
+    _corr=request.form['txtcorreo']
+    _con=request.form['txtcontra']
+
+    if _corr=='' or _con=="":
+        flash('Recuerda llenar los datos de los campos')
+        return render_template('admin/loginadmin.html')
+
+    sql="SELECT * FROM `administrador` WHERE usuario=%s;"
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    dato=(_corr)
+    cursor.execute(sql,dato)
+    _corrv=cursor.fetchall()
+    conn.commit()
+    print(_corrv)
+    if _corrv is ():
+        return render_template('admin/loginadmin.html')
+
+    if _corr==_corrv[0][3] and _con==_corrv[0][4]:
+        session["login"]=True
+        session["usuario"]=_corrv[0][1]
+        session["rango"]="admin"
+        return redirect('/admin')
     return render_template('admin/loginadmin.html')
 
 

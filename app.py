@@ -7,7 +7,14 @@ import os
 
 app=Flask(__name__)
 # Base de datos con sql express/desarrollador
-
+app=Flask(__name__)
+app.secret_key="tienda"
+mysql=MySQL()
+app.config['MYSQL_DATABASE_HOST']='localhost'
+app.config['MYSQL_DATABASE_USER']='root'
+app.config['MYSQL_DATABASE_PASSWORD']=''
+app.config['MYSQL_DATABASE_DB']='tienda'
+mysql.init_app(app)
 # ruta de inicio
 @app.route("/")
 def usuario():
@@ -36,7 +43,9 @@ def Loginadmin():
     #     return redirect('/admin')
     return render_template('admin/loginadmin.html')
 
+
 @app.route("/Productos")
+
 def productos1():
     return render_template('sitio/Productos.html')
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-04-2023 a las 20:29:24
+-- Tiempo de generación: 03-05-2023 a las 17:43:05
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -69,6 +69,7 @@ INSERT INTO `clientes` (`id`, `nombre`, `edad`) VALUES
 
 CREATE TABLE `productos` (
   `codigo` int(11) NOT NULL,
+  `Nombre` varchar(50) NOT NULL,
   `preciodecompra` int(11) NOT NULL,
   `preciodeventa` int(11) NOT NULL,
   `existencia` int(11) NOT NULL,
@@ -79,9 +80,9 @@ CREATE TABLE `productos` (
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`codigo`, `preciodecompra`, `preciodeventa`, `existencia`, `restriccion`) VALUES
-(0, 12, 22, 10, 18),
-(1, 12, 22, 10, 18);
+INSERT INTO `productos` (`codigo`, `Nombre`, `preciodecompra`, `preciodeventa`, `existencia`, `restriccion`) VALUES
+(0, '', 12, 22, 10, 18),
+(1, '', 12, 22, 10, 18);
 
 -- --------------------------------------------------------
 

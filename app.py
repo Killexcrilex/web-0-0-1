@@ -29,12 +29,68 @@ def cerrar():
     session.clear()
     return redirect('/')
 
+
 # Ruta para iniciar sesion como admin
 @app.route("/admin")
 def admin():
     if not 'login' in session:
         return redirect('/')
     return render_template('admin/admin.html')
+
+@app.route("/agregar")
+def agre():
+    if not 'login' in session:
+        return redirect('/')
+    sql="SELECT * FROM `productos`;"
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql)
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('admin/masprodad.html',productos=productos)
+
+@app.route('/edid/<int:id>')
+def edid(id):
+    if not 'login' in session:
+        return redirect('/')
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute("SELECT * FROM productos WHERE Codigo=%s",(id))
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('invet/edid.html',productos=productos)
+
+@app.route("/act", methods=['POST'])
+def act():
+    if not 'login' in session:
+        return redirect('/')
+    id=request.form['Codigo']
+    _nom=request.form['Nombre']
+    _cant=request.form['cantidad']
+    _cost=request.form['costo']
+    sql="UPDATE productos SET `Nombre`=%s, `Cantidad`=%s, `Costo`=%s WHERE Codigo=%s ;"
+    datos=(_nom,_cant,_cost,id)
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql,datos)
+    conn.commit()
+    return redirect('/agregar')
+
+# @app.route("/act2", methods=['POST'])
+# def act2():
+#     if not 'login' in session:
+#         return redirect('/')
+#     id=request.form['Codigo']
+#     _nom=request.form['Nombre']
+#     _cant=request.form['cantidad']
+#     _cost=request.form['costo']
+#     sql="UPDATE producto SET `Nombre`=%s, `Cantidad`=%s, `Costo`=%s WHERE Codigo=%s ;"
+#     datos=(_nom,_cant,_cost,id)
+#     conn=mysql.connect()
+#     cursor=conn.cursor()
+#     cursor.execute(sql,datos)
+#     conn.commit()
+#     return redirect('/productoad')
 
 # Ruta de inicio de seccion correcto como admin
 @app.route("/Loginadmin")

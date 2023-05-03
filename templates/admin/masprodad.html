@@ -2,7 +2,7 @@
 <br>
 <div class="container">
     <div class="row">
-        <div class="col-5">
+        <div class="col-4">
            <div class="card">
                 <div class="card-header">
                     Agregar productos
@@ -22,14 +22,24 @@
                               class="form-control" name="Nombre" id="NOM" aria-describedby="helpId" placeholder="Nombre del producto">
                           </div>
                           <div class="mb-3">
-                            <label for="Cantidad" class="form-label">Cantidad</label>
+                            <label for="Cantidad" class="form-label">Precio de compra</label>
                             <input type="text" 
-                              class="form-control" name="Cantidad" id="CANT" aria-describedby="helpId" placeholder="Cantidad del producto">
+                              class="form-control" name="Cantidad" id="CANT" aria-describedby="helpId" placeholder="Costo del producto">
                           </div>
                           <div class="mb-3">
-                            <label for="Costo" class="form-label">Costo</label>
+                            <label for="Costo" class="form-label">Precio de venta</label>
                             <input type="text"
-                              class="form-control" name="Costo" id="COST" aria-describedby="helpId" placeholder="Costo del producto">
+                              class="form-control" name="Costo" id="COST" aria-describedby="helpId" placeholder="Precio del producto">
+                          </div>
+                          <div class="mb-3">
+                            <label for="Costo" class="form-label">Existencias</label>
+                            <input type="text"
+                              class="form-control" name="Costo" id="COST" aria-describedby="helpId" placeholder="Cantidad del producto">
+                          </div>
+                          <div class="mb-3">
+                            <label for="Costo" class="form-label">Restricion</label>
+                            <input type="text"
+                              class="form-control" name="Costo" id="COST" aria-describedby="helpId" placeholder="Edad para comprar el producto">
                           </div>
                           <button type="submit" class="btn btn-primary">Agregar</button>
                     </form>
@@ -37,7 +47,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-7">
+        <div class="col-8">
             <div class="card">
                  <div class="card-header">
                      Agregar productos
@@ -51,8 +61,10 @@
                                                 <tr>
                                                     <th>Codigo</th>
                                                     <th>Nombre</th>
+                                                    <th>Compra</th>
+                                                    <th>Venta</th>
                                                     <th>Cantidad</th>
-                                                    <th>Costo</th>
+                                                    <th>Edad de compra</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
@@ -64,6 +76,8 @@
                                                     <td>{{producto[1] }}</td>
                                                     <td>{{producto[2] }}</td>
                                                     <td>{{producto[3] }}</td>
+                                                    <td>{{producto[4] }}</td>
+                                                    <td>{{producto[5] }}</td>
                                                     <td> <a type="button" class="btn btn-warning" href="/edid/{{producto[0]}}">Editar</a> | 
                                                         <a type="button" class="btn btn-danger" href="/destroy/{{producto[0]}}">Eliminar</a>
                                                     </td>

@@ -49,6 +49,18 @@ def agre():
     conn.commit()
     return render_template('admin/masprodad.html',productos=productos)
 
+
+@app.route('/destroy/<int:id>')
+def destroy(id):
+    if not 'login' in session:
+        return redirect('/')
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute("DELETE FROM productos WHERE Codigo=%s",(id))
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('admin/masprodad.html',productos=productos)
+
 @app.route('/edid/<int:id>')
 def edid(id):
     if not 'login' in session:

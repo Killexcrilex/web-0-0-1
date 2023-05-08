@@ -32,14 +32,24 @@
                        class="form-control" name="Nombre" id="NOM" aria-describedby="helpId" placeholder="Nombre del producto">
                    </div>
                    <div class="mb-3">
-                     <label for="cantidad" class="form-label">Cantidad</label>
+                     <label for="cantidad" class="form-label">Precio de Compra</label>
                      <input type="text"  value="{{ producto[2] }}"
-                       class="form-control" name="cantidad" id="CANT" aria-describedby="helpId" placeholder="Cantidad del producto">
+                       class="form-control" name="preciodecompra" id="Prec" aria-describedby="helpId" placeholder="Cantidad del producto">
                    </div>
                    <div class="mb-3">
-                     <label for="costo" class="form-label">Costo</label>
-                     <input type="text"  value="{{ producto[3] }}"
-                       class="form-control" name="costo" id="COST" aria-describedby="helpId" placeholder="Costo del producto">
+                    <label for="cantidad" class="form-label">Precio de Venta</label>
+                    <input type="text"  value="{{ producto[3] }}"
+                      class="form-control" name="preciodeventa" id="Prev" aria-describedby="helpId" placeholder="Cantidad del producto">
+                  </div>
+                  <div class="mb-3">
+                    <label for="cantidad" class="form-label">Existencia</label>
+                    <input type="text"  value="{{ producto[5] }}"
+                      class="form-control" name="existencia" id="Exi" aria-describedby="helpId" placeholder="Cantidad del producto">
+                  </div>
+                   <div class="mb-3">
+                     <label for="costo" class="form-label">Restriccion</label>
+                     <input type="text"  value="{{ producto[5] }}"
+                       class="form-control" name="restriccion" id="Rres" aria-describedby="helpId" placeholder="Costo del producto">
                    </div>
                    <button type="submit" class="btn btn-warning">Editar</button>
             {% endfor %}

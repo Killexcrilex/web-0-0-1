@@ -66,31 +66,35 @@ def act():
         return redirect('/')
     id=request.form['Codigo']
     _nom=request.form['Nombre']
-    _cant=request.form['cantidad']
-    _cost=request.form['costo']
-    sql="UPDATE productos SET `Nombre`=%s, `Cantidad`=%s, `Costo`=%s WHERE Codigo=%s ;"
-    datos=(_nom,_cant,_cost,id)
+    _prev=request.form['preciodecompra']
+    _prec=request.form['preciodeventa']
+    _exi=request.form['existencia']
+    _rest=request.form['restriccion']
+    sql="UPDATE productos SET `Nombre`=%s, `preciodecompra`=%s, `preciodeventa`=%s, `existencia`=%s, `restriccion`=%s WHERE codigo=%s ;"
+    datos=(_nom,_prev,_prec	,_exi,_rest,id)
     conn=mysql.connect()
     cursor=conn.cursor()
     cursor.execute(sql,datos)
     conn.commit()
     return redirect('/agregar')
 
-# @app.route("/act2", methods=['POST'])
-# def act2():
-#     if not 'login' in session:
-#         return redirect('/')
-#     id=request.form['Codigo']
-#     _nom=request.form['Nombre']
-#     _cant=request.form['cantidad']
-#     _cost=request.form['costo']
-#     sql="UPDATE producto SET `Nombre`=%s, `Cantidad`=%s, `Costo`=%s WHERE Codigo=%s ;"
-#     datos=(_nom,_cant,_cost,id)
-#     conn=mysql.connect()
-#     cursor=conn.cursor()
-#     cursor.execute(sql,datos)
-#     conn.commit()
-#     return redirect('/productoad')
+@app.route("/act2", methods=['POST'])
+def act2():
+    if not 'login' in session:
+        return redirect('/')
+    id=request.form['Codigo']
+    _nom=request.form['Nombre']
+    _prev=request.form['preciodecompra']
+    _prec=request.form['preciodeventa']
+    _exi=request.form['existencia']
+    _rest=request.form['restriccion']
+    sql="UPDATE productos SET `Nombre`=%s, `preciodecompra`=%s, `preciodeventa`=%s, `existencia`=%s, `restriccion`=%s WHERE codigo=%s ;"
+    datos=(_nom,_prev,_prec	,_exi,_rest,id)
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql,datos)
+    conn.commit()
+    return redirect('/productoad')
 
 # Ruta de inicio de seccion correcto como admin
 @app.route("/Loginadmin")

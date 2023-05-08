@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-05-2023 a las 16:25:19
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.0.28
+-- Tiempo de generación: 03-05-2023 a las 17:43:05
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -51,17 +51,15 @@ INSERT INTO `administrador` (`id`, `nombre`, `horario`, `usuario`, `contra`) VAL
 CREATE TABLE `clientes` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `edad` int(50) NOT NULL,
-  `correo` varchar(50) NOT NULL,
-  `contraseña` varchar(50) NOT NULL
+  `edad` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`id`, `nombre`, `edad`, `correo`, `contraseña`) VALUES
-(1, 'Luis Felipe', 12, 'luisgutierrez2134@gmail.com', 'felipe23');
+INSERT INTO `clientes` (`id`, `nombre`, `edad`) VALUES
+(1, 'Luis Felipe', 12);
 
 -- --------------------------------------------------------
 
@@ -73,8 +71,8 @@ CREATE TABLE `productos` (
   `codigo` int(11) NOT NULL,
   `Nombre` varchar(50) NOT NULL,
   `preciodecompra` int(11) NOT NULL,
-  `Costo` int(11) NOT NULL,
-  `Cantidad` int(11) NOT NULL,
+  `preciodeventa` int(11) NOT NULL,
+  `existencia` int(11) NOT NULL,
   `restriccion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -82,9 +80,9 @@ CREATE TABLE `productos` (
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`codigo`, `Nombre`, `preciodecompra`, `Costo`, `Cantidad`, `restriccion`) VALUES
-(2, 'Coca Cola 2.5 L', 25, 32, 300, 0),
-(4, 'Fresca 600', 10, 15, 20, 0);
+INSERT INTO `productos` (`codigo`, `Nombre`, `preciodecompra`, `preciodeventa`, `existencia`, `restriccion`) VALUES
+(0, '', 12, 22, 10, 18),
+(1, '', 12, 22, 10, 18);
 
 -- --------------------------------------------------------
 
@@ -145,12 +143,6 @@ ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `productos`
---
-ALTER TABLE `productos`
-  ADD PRIMARY KEY (`codigo`);
-
---
 -- Indices de la tabla `ticket`
 --
 ALTER TABLE `ticket`
@@ -177,12 +169,6 @@ ALTER TABLE `administrador`
 --
 ALTER TABLE `clientes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de la tabla `productos`
---
-ALTER TABLE `productos`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `ticket`

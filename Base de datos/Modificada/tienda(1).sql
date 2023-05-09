@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-05-2023 a las 17:43:05
+-- Tiempo de generación: 09-05-2023 a las 02:11:22
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -32,6 +32,7 @@ CREATE TABLE `administrador` (
   `nombre` varchar(50) NOT NULL,
   `horario` varchar(50) NOT NULL,
   `usuario` varchar(25) NOT NULL,
+  `correo` varchar(50) NOT NULL,
   `contra` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -39,8 +40,8 @@ CREATE TABLE `administrador` (
 -- Volcado de datos para la tabla `administrador`
 --
 
-INSERT INTO `administrador` (`id`, `nombre`, `horario`, `usuario`, `contra`) VALUES
-(1, 'Francisco Cardenas', '8 a.m- 9.am', 'Frank', 'Frank');
+INSERT INTO `administrador` (`id`, `nombre`, `horario`, `usuario`, `correo`, `contra`) VALUES
+(1, 'Francisco Cardenas', '8 a.m- 9.am', 'Frank', '', 'Frank');
 
 -- --------------------------------------------------------
 
@@ -51,15 +52,18 @@ INSERT INTO `administrador` (`id`, `nombre`, `horario`, `usuario`, `contra`) VAL
 CREATE TABLE `clientes` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `edad` int(50) NOT NULL
+  `edad` int(50) NOT NULL,
+  `usuario` varchar(25) NOT NULL,
+  `correo` varchar(50) NOT NULL,
+  `contra` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`id`, `nombre`, `edad`) VALUES
-(1, 'Luis Felipe', 12);
+INSERT INTO `clientes` (`id`, `nombre`, `edad`, `usuario`, `correo`, `contra`) VALUES
+(1, 'Luis Felipe', 12, 'Luis', '', 'Luis');
 
 -- --------------------------------------------------------
 
@@ -115,16 +119,19 @@ CREATE TABLE `trabajador` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `horario` varchar(50) NOT NULL,
-  `salario` int(11) NOT NULL
+  `salario` int(11) NOT NULL,
+  `usuario` varchar(25) NOT NULL,
+  `correo` varchar(50) NOT NULL,
+  `contra` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `trabajador`
 --
 
-INSERT INTO `trabajador` (`id`, `nombre`, `horario`, `salario`) VALUES
-(1, 'Esteban', '12 a.m - 11 a.m', 20),
-(2, 'Miriam Cardenas', '10 a.m- 12 p.m', 200);
+INSERT INTO `trabajador` (`id`, `nombre`, `horario`, `salario`, `usuario`, `correo`, `contra`) VALUES
+(1, 'Esteban', '12 a.m - 11 a.m', 20, '', '', ''),
+(2, 'Miriam Cardenas', '10 a.m- 12 p.m', 200, '', '', '');
 
 --
 -- Índices para tablas volcadas

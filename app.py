@@ -30,12 +30,31 @@ def cerrar():
     return redirect('/')
 
 
+
 # Ruta para iniciar sesion como admin
 @app.route("/admin")
 def admin():
     if not 'login' in session:
         return redirect('/')
     return render_template('admin/admin.html')
+
+
+@app.route("/agrepro")
+def agrepro():
+   if not 'login' in session:
+        return redirect('/')
+   _nom=request.form['Nombre']
+   _prec=request.form['Prec']
+   _prev=request.form['Prev']
+   _exis=request.form['Existen']
+   _res=request.form['Rest']
+   sql="INSERT INTO productos SET VALUES `Nombre`=%s, `preciodecompra`=%s, `preciodeventa`=%s, `existencia`=%s, `restriccion`=%s;"
+   datos=(_nom,_prec,_prev,_exis,_res)
+   conn=mysql.connect()
+   cursor=conn.cursor()
+   cursor.execute(sql,datos)
+   conn.commit()
+   return render_template('admin/masprodad.html')
 
 @app.route("/agregar")
 def agre():
@@ -59,7 +78,7 @@ def destroy(id):
     cursor.execute("DELETE FROM productos WHERE Codigo=%s",(id))
     productos=cursor.fetchall()
     conn.commit()
-    return render_template('admin/masprodad.html',productos=productos)
+    return redirect('/agregar')
 
 @app.route('/edid/<int:id>')
 def edid(id):

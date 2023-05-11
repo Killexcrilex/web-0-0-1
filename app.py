@@ -56,6 +56,18 @@ def agrepro():
    conn.commit()
    return render_template('admin/masprodad.html')
 
+@app.route("/mostrar")
+def mostrar():
+    
+    sql="SELECT * FROM `productos`;"
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql)
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('sitio/Productos.html',productos=productos)
+
+
 @app.route("/agregar")
 def agre():
     if not 'login' in session:

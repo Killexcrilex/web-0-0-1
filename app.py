@@ -37,6 +37,12 @@ def admin():
         return redirect('/')
     return render_template('admin/admin.html')
 
+@app.route("/sitio")
+def sitio():
+    if not 'login' in session:
+        return redirect('/')
+    return render_template('sitio/Productos.html')
+
 @app.route("/agregar")
 def agre():
     if not 'login' in session:
@@ -111,12 +117,54 @@ def act2():
 # Ruta de inicio de seccion correcto como admin
 @app.route("/Loginadmin")
 def Loginadmin():
-    if 'login' in session:
+    if 'login' in session and session.get('rango') == 'admin':
         return redirect('/admin')
     return render_template('admin/loginadmin.html')
-
+  
 @app.route("/Loginadmin", methods=['POST'])
 def ad_log():
+    _corr = request.form['txtcorreo']
+    _con = request.form['txtcontra']
+
+    if _corr == '' or _con == "":
+        flash('Recuerda llenar los datos de los campos')
+        return render_template('admin/loginadmin.html')
+
+    sql_admin = "SELECT * FROM `administrador` WHERE usuario = %s;"
+    sql_clientes = "SELECT * FROM `clientes` WHERE usuario = %s;"
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    # Consulta para administradores
+    cursor.execute(sql_admin, (_corr,))
+    admin_result = cursor.fetchall()
+
+    # Consulta para usuarios
+    cursor.execute(sql_clientes, (_corr,))
+    usuario_result = cursor.fetchall()
+
+    conn.commit()
+    print(admin_result)
+    print(usuario_result)
+
+    if not admin_result and not usuario_result:
+        return render_template('admin/loginadmin.html')
+
+    if admin_result and _corr == admin_result[0][3] and _con == admin_result[0][5]:
+        session["login"] = "admin"
+        session["usuario"] = admin_result[0][1]
+        session["rango"] = "admin"
+        return redirect('/admin')
+
+    if usuario_result and _corr == usuario_result[0][3] and _con == usuario_result[0][5]:
+        session["login"] = "usuario"
+        session["usuario"] = usuario_result[0][1]
+        session["rango"] = "cliente"
+        return redirect('/sitio')
+
+    return render_template('admin/loginadmin.html')
+    '''
     _corr=request.form['txtcorreo']
     _con=request.form['txtcontra']
 
@@ -141,7 +189,7 @@ def ad_log():
         session["rango"]="admin"
         return redirect('/admin')
     return render_template('admin/loginadmin.html')
-
+'''
 
 @app.route("/Productos")
 

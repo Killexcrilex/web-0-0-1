@@ -36,12 +36,6 @@ def admin():
         return redirect('/')
     return render_template('admin/admin.html')
 
-@app.route("/sitio")
-def sitio():
-    if not 'login' in session:
-        return redirect('/')
-    return render_template('sitio/Productos.html')
-
 @app.route("/agrepro")
 def agrepro():
    if not 'login' in session:
@@ -189,7 +183,7 @@ def ad_log():
         session["login"] = "usuario"
         session["usuario"] = usuario_result[0][1]
         session["rango"] = "cliente"
-        return redirect('/sitio')
+        return redirect('/mostrar')
 
     return render_template('admin/loginadmin.html')
 '''

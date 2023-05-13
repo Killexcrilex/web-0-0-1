@@ -146,7 +146,7 @@ def Loginadmin():
     if 'login' in session and session.get('rango') == 'admin':
         return redirect('/admin')
     if 'login' in session and session.get('rango') == 'cliente':
-        return redirect('/sitio')
+        return redirect('/mostrar')
     return render_template('admin/loginadmin.html')
      
 @app.route("/Loginadmin", methods=['POST'])

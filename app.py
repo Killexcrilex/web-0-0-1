@@ -29,7 +29,6 @@ def cerrar():
     session.clear()
     return redirect('/')
 
-
 # Ruta para iniciar sesion como admin
 @app.route("/admin")
 def admin():
@@ -82,7 +81,6 @@ def agre():
     productos=cursor.fetchall()
     conn.commit()
     return render_template('admin/masprodad.html',productos=productos)
-
 
 @app.route('/destroy/<int:id>')
 def destroy(id):
@@ -148,7 +146,7 @@ def Loginadmin():
     if 'login' in session and session.get('rango') == 'admin':
         return redirect('/admin')
     return render_template('admin/loginadmin.html')
-  
+     
 @app.route("/Loginadmin", methods=['POST'])
 def ad_log():
     _corr = request.form['txtcorreo']
@@ -186,14 +184,13 @@ def ad_log():
         return redirect('/admin')
 
     if usuario_result and _corr == usuario_result[0][3] and _con == usuario_result[0][5]:
-        session["login"] = "usuario"
+        session["login"] = "cliente"
         session["usuario"] = usuario_result[0][1]
         session["rango"] = "cliente"
         return redirect('/sitio')
 
     return render_template('admin/loginadmin.html')
  
-
 @app.route("/Productos")
 def productos1():
     return render_template('sitio/Productos.html')

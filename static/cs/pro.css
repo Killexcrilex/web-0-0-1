@@ -22,6 +22,7 @@ img{
     display: inline-block;
     justify-content: center;
     border: 2px solid black;
+    background-color: white;
     
 }
 #pr{
@@ -39,4 +40,10 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
   margin: 0; 
+}
+#a1{
+    margin: 2%
+}
+body {
+    background-color: beige;
 }

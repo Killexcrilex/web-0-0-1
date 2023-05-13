@@ -43,6 +43,34 @@ def sitio():
         return redirect('/')
     return render_template('sitio/Productos.html')
 
+@app.route("/agrepro")
+def agrepro():
+   if not 'login' in session:
+        return redirect('/')
+   _nom=request.form['Nombre']
+   _prec=request.form['Prec']
+   _prev=request.form['Prev']
+   _exis=request.form['Existen']
+   _res=request.form['Rest']
+   sql="INSERT INTO productos SET VALUES `Nombre`=%s, `preciodecompra`=%s, `preciodeventa`=%s, `existencia`=%s, `restriccion`=%s;"
+   datos=(_nom,_prec,_prev,_exis,_res)
+   conn=mysql.connect()
+   cursor=conn.cursor()
+   cursor.execute(sql,datos)
+   conn.commit()
+   return render_template('admin/masprodad.html')
+
+@app.route("/mostrar")
+def mostrar():
+    
+    sql="SELECT * FROM `productos`;"
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql)
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('sitio/Productos.html',productos=productos)
+
 @app.route("/agregar")
 def agre():
     if not 'login' in session:
@@ -65,7 +93,7 @@ def destroy(id):
     cursor.execute("DELETE FROM productos WHERE Codigo=%s",(id))
     productos=cursor.fetchall()
     conn.commit()
-    return render_template('admin/masprodad.html',productos=productos)
+    return redirect('/agregar')
 
 @app.route('/edid/<int:id>')
 def edid(id):
@@ -164,35 +192,9 @@ def ad_log():
         return redirect('/sitio')
 
     return render_template('admin/loginadmin.html')
-    '''
-    _corr=request.form['txtcorreo']
-    _con=request.form['txtcontra']
-
-    if _corr=='' or _con=="":
-        flash('Recuerda llenar los datos de los campos')
-        return render_template('admin/loginadmin.html')
-
-    sql="SELECT * FROM `administrador` WHERE usuario=%s;"
-    conn=mysql.connect()
-    cursor=conn.cursor()
-    dato=(_corr)
-    cursor.execute(sql,dato)
-    _corrv=cursor.fetchall()
-    conn.commit()
-    print(_corrv)
-    if _corrv is ():
-        return render_template('admin/loginadmin.html')
-
-    if _corr==_corrv[0][3] and _con==_corrv[0][5]:
-        session["login"]=True
-        session["usuario"]=_corrv[0][1]
-        session["rango"]="admin"
-        return redirect('/admin')
-    return render_template('admin/loginadmin.html')
-'''
+ 
 
 @app.route("/Productos")
-
 def productos1():
     return render_template('sitio/Productos.html')
 

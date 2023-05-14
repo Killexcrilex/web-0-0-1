@@ -174,6 +174,7 @@ def ad_log():
         session["login"] = "admin"
         session["usuario"] = admin_result[0][1]
         session["rango"] = "admin"
+        session["edad"] = 99
         return redirect('/admin')
 
     if usuario_result and _corr == usuario_result[0][3] and _con == usuario_result[0][5]:

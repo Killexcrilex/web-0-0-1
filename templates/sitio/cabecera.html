@@ -19,19 +19,21 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand nav-link" href="/" aria-current="page">Inicio</a>
-      <a class="navbar-brand nav-link" href="/mostrar">Productos</a>
+      {% if session['login'] %}
+        <a class="navbar-brand nav-link" href="/mostrar">Productos</a>
+      {% endif %}
       <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
         <ul class="navbar-nav">
           <li class="nav-item dropdown">
             {% if session['login'] %}
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              {{ session['usuario'] }}
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-              <li><a class="dropdown-item" href="/cerrar">Cerrar</a></li>
-            </ul>  
-            {% else %}
-            <a class="navbar-brand nav-link" href="/Loginadmin">Iniciar seccion</a>
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ session['usuario'] }}
+                  </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                      <li><a class="dropdown-item" href="/cerrar">Cerrar</a></li>
+                  </ul>  
+                  {% else %}
+              <a class="navbar-brand nav-link" href="/Loginadmin">Iniciar seccion</a>
             {% endif %}
             
           </li>

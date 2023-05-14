@@ -55,6 +55,9 @@ def agrepro():
 
 @app.route("/mostrar")
 def mostrar():
+    if not 'login' in session:
+        return redirect('/')
+        
     sql="SELECT * FROM `productos`;"
     conn=mysql.connect()
     cursor=conn.cursor()
@@ -139,7 +142,7 @@ def Loginadmin():
     if 'login' in session and session.get('rango') == 'admin':
         return redirect('/admin')
     if 'login' in session and session.get('rango') == 'cliente':
-        return redirect('/mostrar')
+        return redirect('/')
     return render_template('admin/loginadmin.html')
      
 @app.route("/Loginadmin", methods=['POST'])
@@ -182,7 +185,7 @@ def ad_log():
         session["usuario"] = usuario_result[0][1]
         session["rango"] = "cliente"
         session["edad"] = usuario_result[0][2]
-        return redirect('/mostrar')
+        return redirect('/')
 
     return render_template('admin/loginadmin.html')
 '''

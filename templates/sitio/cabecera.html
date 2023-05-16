@@ -31,6 +31,9 @@
                 {{ session['usuario'] }}
                   </a>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                      {% if session['rango']=='admin'  %}
+                      <li><a class="dropdown-item" href="/admin" aria-current="page">Admin</a></li>
+                      {% endif %}
                       <li><a class="dropdown-item" href="/cerrar">Cerrar</a></li>
                   </ul>  
                   {% else %}

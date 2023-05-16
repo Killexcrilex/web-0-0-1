@@ -16,17 +16,18 @@
 <body>
     <nav class="navbar navbar-expand navbar-dark bg-dark">
         <div class="nav navbar-nav">
-            <a class="nav-item nav-link" href="/admin" aria-current="page">Inicio</a>
+          <a class="navbar-brand nav-link" href="/admin" aria-current="page">Inicio</a>
+            <a class="navbar-brand nav-link" href="/" aria-current="page">Principal</a>
             {% if session['rango']==0 %}
-            <a class="nav-item nav-link" href="/productoad">Productos</a>
+            <a class="navbar-brand nav-link" href="/productoad">Productos</a>
             {% endif %}
             <!--<a class="nav-item nav-link" href="/nosotrosad">Nosotros</a>-->
             {% if session['rango']=="admin" %}
-              <a class="nav-item nav-link" href="/agregar">Productos</a>
+            <a class="navbar-brand nav-link" href="/agregar">Productos</a>
               <!-- <a class="nav-item nav-link" href="/creatempleados">Usuarios</a> -->
             <!--  <a class="nav-item nav-link" href="/Usuarios">Ver usuarios</a>-->
             {% endif %}
-            <a class="nav-item nav-link" href="/cerrar">Cerrar</a>
+            <a class="navbar-brand nav-link" href="/cerrar">Cerrar</a>
           </div>
     </nav>
 </body>

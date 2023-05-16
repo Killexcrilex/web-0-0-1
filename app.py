@@ -69,7 +69,9 @@ def mostrar():
 
 @app.route("/mostcarr")
 def mostcarr():
-    
+    if not 'login' in session:
+        return redirect('/')
+
     sql="SELECT * FROM `carrito`;"
     conn=mysql.connect()
     cursor=conn.cursor()

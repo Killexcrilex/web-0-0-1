@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-05-2023 a las 07:08:07
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.0.28
+-- Tiempo de generación: 16-05-2023 a las 19:56:15
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,28 +42,6 @@ CREATE TABLE `administrador` (
 
 INSERT INTO `administrador` (`id`, `nombre`, `horario`, `usuario`, `correo`, `contra`) VALUES
 (1, 'Francisco Cardenas', '8 a.m- 9.am', 'Frank', 'frankcardenas@gmail.com', 'Frank');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `carrito`
---
-
-CREATE TABLE `carrito` (
-  `id` int(11) NOT NULL,
-  `Producto` varchar(50) NOT NULL,
-  `Precio` int(11) NOT NULL,
-  `Cantidad` int(11) NOT NULL,
-  `Total` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `carrito`
---
-
-INSERT INTO `carrito` (`id`, `Producto`, `Precio`, `Cantidad`, `Total`) VALUES
-(1, 'Fresca 600 ml', 22, 10, 220),
-(2, 'Pepsi 600ml', 18, 10, 180);
 
 -- --------------------------------------------------------
 
@@ -173,19 +151,15 @@ INSERT INTO `trabajador` (`id`, `nombre`, `horario`, `salario`, `usuario`, `corr
 -- Indices de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `carrito`
---
-ALTER TABLE `carrito`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `correo` (`correo`);
 
 --
 -- Indices de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `correo` (`correo`);
 
 --
 -- Indices de la tabla `productos`
@@ -203,7 +177,8 @@ ALTER TABLE `ticket`
 -- Indices de la tabla `trabajador`
 --
 ALTER TABLE `trabajador`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `correo` (`correo`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -214,12 +189,6 @@ ALTER TABLE `trabajador`
 --
 ALTER TABLE `administrador`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de la tabla `carrito`
---
-ALTER TABLE `carrito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`

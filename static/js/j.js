@@ -1,4 +1,4 @@
-function    Carrito() {
+/*function    Carrito() {
     // Obtener la fecha y hora actual
     var fecha = new Date();
     
@@ -16,4 +16,38 @@ function    Carrito() {
     console.log(contenidoTicket);
     
     // Aquí puedes agregar código adicional para imprimir el ticket o realizar otras acciones con él
+}*/
+
+function incrementarValor(input) {
+    var valor = parseInt(input.value);
+    if (!isNaN(valor)) {
+      valor++;
+      input.value = valor;
+    }
+  }
+
+
+  function decrementarValor(input) {
+    var valor = parseInt(input.value);
+    if (!isNaN(valor) && valor > 0) {
+      valor--;
+      input.value = valor;
+    }
+  }
+  
+
+  function agregarAlCarrito(nombreProducto, precioProducto, cantidadSeleccionada) {
+    var total = parseFloat(precioProducto) * parseInt(cantidadSeleccionada);
+
+    var carrito = {
+        producto: nombreProducto,
+        precio: precioProducto,
+        cantidad: cantidadSeleccionada,
+        total: total
+    };
+
+    // Aquí puedes realizar la lógica para enviar el objeto "carrito" al servidor y realizar la inserción en la tabla "carrito".
+    // Puedes utilizar una solicitud AJAX o cualquier otra forma de comunicación con el servidor para realizar la inserción en la base de datos.
+
+    console.log(carrito); // Muestra el objeto carrito en la consola para fines de demostración
 }

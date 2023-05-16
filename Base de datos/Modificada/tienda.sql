@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-05-2023 a las 01:21:59
--- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.2.0
+-- Tiempo de generación: 16-05-2023 a las 07:08:07
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,7 +41,29 @@ CREATE TABLE `administrador` (
 --
 
 INSERT INTO `administrador` (`id`, `nombre`, `horario`, `usuario`, `correo`, `contra`) VALUES
-(1, 'Francisco Cardenas', '8 a.m- 9.am', 'Frank', '', 'Frank');
+(1, 'Francisco Cardenas', '8 a.m- 9.am', 'Frank', 'frankcardenas@gmail.com', 'Frank');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carrito`
+--
+
+CREATE TABLE `carrito` (
+  `id` int(11) NOT NULL,
+  `Producto` varchar(50) NOT NULL,
+  `Precio` int(11) NOT NULL,
+  `Cantidad` int(11) NOT NULL,
+  `Total` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `carrito`
+--
+
+INSERT INTO `carrito` (`id`, `Producto`, `Precio`, `Cantidad`, `Total`) VALUES
+(1, 'Fresca 600 ml', 22, 10, 220),
+(2, 'Pepsi 600ml', 18, 10, 180);
 
 -- --------------------------------------------------------
 
@@ -63,7 +85,7 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id`, `nombre`, `edad`, `usuario`, `correo`, `contra`) VALUES
-(1, 'Luis Felipe', 12, '', '', '');
+(1, 'Luis Felipe', 12, 'Luis', 'luisfelipe2134@gmail.com', 'Luis');
 
 -- --------------------------------------------------------
 
@@ -77,16 +99,26 @@ CREATE TABLE `productos` (
   `preciodecompra` int(11) NOT NULL,
   `preciodeventa` int(11) NOT NULL,
   `existencia` int(11) NOT NULL,
-  `restriccion` int(11) NOT NULL
+  `restriccion` int(11) NOT NULL,
+  `imagen` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`codigo`, `Nombre`, `preciodecompra`, `preciodeventa`, `existencia`, `restriccion`) VALUES
-(0, '', 12, 22, 10, 18),
-(1, '', 12, 22, 10, 18);
+INSERT INTO `productos` (`codigo`, `Nombre`, `preciodecompra`, `preciodeventa`, `existencia`, `restriccion`, `imagen`) VALUES
+(1, 'Fresca 600 ml', 12, 30, 18, 18, 'reTIEN\\fre.jpeg'),
+(2, 'Tonayan 500ml', 12, 30, 18, 18, 'reTIEN\\tona.jpeg'),
+(3, 'Pasta Colgate', 10, 45, 10, 0, 'reTIEN\\col.jpg'),
+(4, 'Pepsi 600ml', 10, 18, 24, 0, 'reTIEN\\pep.jpeg'),
+(5, 'Coca-cola 600ml', 13, 18, 24, 0, 'reTIEN\\coca.jpg'),
+(6, 'Maruchan de Camaron ', 13, 16, 24, 0, 'reTIEN\\mar.jpg'),
+(7, 'Fanta 600ml', 13, 18, 24, 0, 'reTIEN\\fan.jpg'),
+(8, 'Doritos Pizzerola', 15, 16, 15, 0, '/reTIEN\\dp.jpeg'),
+(10, 'Rufles de queso', 17, 18, 15, 0, 'reTIEN\\ruf.jpg'),
+(11, 'Sabritas crema y especias', 17, 18, 15, 0, 'reTIEN\\sce.jpeg'),
+(12, 'Cigarros Alaska', 54, 64, 24, 18, 'reTIEN\\alas.jpg');
 
 -- --------------------------------------------------------
 
@@ -130,8 +162,8 @@ CREATE TABLE `trabajador` (
 --
 
 INSERT INTO `trabajador` (`id`, `nombre`, `horario`, `salario`, `usuario`, `correo`, `contra`) VALUES
-(1, 'Esteban', '12 a.m - 11 a.m', 20, '', '', ''),
-(2, 'Miriam Cardenas', '10 a.m- 12 p.m', 200, '', '', '');
+(1, 'Esteban', '12 a.m - 11 a.m', 20, 'Esteban', 'estebanco@gmail.com', 'Esteban'),
+(2, 'Miriam Cardenas', '10 a.m- 12 p.m', 200, 'Miriam', 'miriamcardenas@gmail.com', 'Miriam');
 
 --
 -- Índices para tablas volcadas
@@ -144,10 +176,22 @@ ALTER TABLE `administrador`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `carrito`
+--
+ALTER TABLE `carrito`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `clientes`
 --
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `productos`
+--
+ALTER TABLE `productos`
+  ADD PRIMARY KEY (`codigo`);
 
 --
 -- Indices de la tabla `ticket`
@@ -172,10 +216,22 @@ ALTER TABLE `administrador`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `carrito`
+--
+ALTER TABLE `carrito`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `productos`
+--
+ALTER TABLE `productos`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `ticket`

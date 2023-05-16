@@ -1,0 +1,58 @@
+{% include 'sitio/cabecera.html' %}
+
+
+<div class="col-8">
+    <div class="card">
+         <div class="card-header">
+           <h3>Carrito de compra</h3>
+         </div>
+         <div class="card-body">
+
+            <div class="container">
+                <div class="row">
+                                <table class="table table-light" >
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Producto</th>
+                                            <th>Precio</th>
+                                            <th>Cantidad</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for carro in carrito %}
+                                        
+                                        <tr>
+                                            <td>{{carro[1] }}</td>
+                                            <td>{{carro[2] }}</td>
+                                            <td>{{carro[3] }}</td>
+                                            <td>{{carro[4] }}</td>
+                                           
+                                        </tr>
+
+                                       
+                                        {% endfor %}
+                                        
+                                        
+                                    </tbody>
+                                      </table>
+                                      <h5>Total a Pagar $</h5>
+                                      <h4>{{ suma_total }}</h4>
+                               
+                        </div>
+                    </div>
+                    <br>
+                    <button type="button" class="btn btn-outline-success">Generar Ticket</button>
+                             
+                </div>
+            </div>
+
+         </div>
+     </div>
+ </div>
+
+</div>
+</div>
+
+
+{% include 'sitio/pie.html' %}

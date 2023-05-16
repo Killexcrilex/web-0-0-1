@@ -66,6 +66,30 @@ def mostrar():
     conn.commit()
     return render_template('sitio/Productos.html',productos=productos)
 
+
+@app.route("/mostcarr")
+def mostcarr():
+    
+    sql="SELECT * FROM `carrito`;"
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql)
+    carrito=cursor.fetchall()
+    conn.commit()
+    sql1="SELECT SUM(Total) FROM carrito"
+    conn1=mysql.connect()
+    cursor1=conn1.cursor()
+    cursor1.execute(sql1)
+    resultado = cursor1.fetchone()
+    suma_total = resultado[0] if resultado[0] else 0
+
+    conn1.commit()
+    return render_template('sitio/carrito.html',carrito=carrito,suma_total=suma_total)
+
+
+
+
+
 @app.route("/agregar")
 def agre():
     if not 'login' in session:

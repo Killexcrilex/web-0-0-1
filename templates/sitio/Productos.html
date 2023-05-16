@@ -9,7 +9,7 @@
 <body>
     <div class="cont">
         {% for producto in productos %}
-            {% if producto[5] >= 0  %}
+        {% if session["edad"] >= producto[5]  %}
                 <div class="per">
                     <div class="prod">
                         <img class="rounded-circle" id="pr" src="{{ producto[6] }}" width="200" height="200" alt="..." />

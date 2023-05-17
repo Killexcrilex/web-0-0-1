@@ -72,16 +72,16 @@ def mostcarr():
     if not 'login' in session:
         return redirect('/')
 
-    sql="SELECT * FROM `carrito`;"
+    sql="SELECT * FROM `carrito` WHERE Correo=%s;"
     conn=mysql.connect()
     cursor=conn.cursor()
-    cursor.execute(sql)
+    cursor.execute(sql, session["correo"])
     carrito=cursor.fetchall()
     conn.commit()
-    sql1="SELECT SUM(Total) FROM carrito"
+    sql1="SELECT SUM(Total) FROM `carrito` WHERE Correo=%s"
     conn1=mysql.connect()
     cursor1=conn1.cursor()
-    cursor1.execute(sql1)
+    cursor1.execute(sql1, session["correo"])
     resultado = cursor1.fetchone()
     suma_total = resultado[0] if resultado[0] else 0
 
@@ -203,6 +203,7 @@ def ad_log():
         session["login"] = "admin"
         session["usuario"] = admin_result[0][1]
         session["rango"] = "admin"
+        session["correo"] = admin_result[0][4]
         session["edad"] = 99
         return redirect('/admin')
 
@@ -210,6 +211,7 @@ def ad_log():
         session["login"] = "usuario"
         session["usuario"] = usuario_result[0][1]
         session["rango"] = "cliente"
+        session["correo"] = admin_result[0][4]
         session["edad"] = usuario_result[0][2]
         return redirect('/mostrar')
 

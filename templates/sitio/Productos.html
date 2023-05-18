@@ -12,7 +12,7 @@
         {% if session["edad"] >= producto[5]  %}
                 <div class="per">
                     <div class="prod">
-                        <img class="rounded-circle" id="pr" src="{{ producto[6] }}" width="200" height="200" alt="..." />
+                        <img class="rounded-circle" id="pr" src="{{ url_for('reTIEN', nombreFoto1=producto[6] )}}" width="200" height="200" alt="..." />
                         <h5>{{ producto[1] }}</h5>
                         <h5>${{ producto[3] }}</h5>
                     </div>

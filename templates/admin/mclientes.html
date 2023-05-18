@@ -54,9 +54,9 @@
                  </div>
                  <div class="card-body">
  
-                    <div class="container ">
-                        <div class="row table-responsive">
-                                        <table class="table table-dark table-responsive">
+                    <div class="container">
+                        <div class="row">
+                                        <table class="table table-dark">
                                             <thead class="thead-dark">
                                                 <tr>
                                                     <th>ID</th>
@@ -77,13 +77,8 @@
                                                     <td>{{producto[3] }}</td>
                                                     <td>{{producto[4] }}</td>
                                                     <td>
-                                                        {% if session['rango']!="cliente" %}
-                                                            <a type="button" class="btn btn-warning" href="/edid/{{producto[0]}}">Editar</a> 
-                                                            {% if session['rango']=="admin" %}
-                                                                <a>|</a>
-                                                                <a type="button" class="btn btn-danger" href="/destroy/{{producto[0]}}">Eliminar</a>
-                                                            {% endif %}
-                                                        {% endif %}
+                                                        <!-- <a type="button" class="btn btn-warning" href="/edid/{{producto[0]}}">Editar</a> | 
+                                                        <a type="button" class="btn btn-danger" href="/destroy/{{producto[0]}}">Eliminar</a> -->
                                                     </td>
                                                     
                                                 </tr>
@@ -99,7 +94,8 @@
  
                  </div>
              </div>
-            </div>
+         </div>
+        
     </div>
 </div>
 

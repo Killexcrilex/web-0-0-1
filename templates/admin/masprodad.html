@@ -14,38 +14,38 @@
                         
                         <div class="mb-3">
                           <label for="Codigo" class="form-label">Codigo</label>
-                          <input type="text"
-                            class="form-control"  name="Codigo" id="CD" aria-describedby="helpId" placeholder="Codigo del producto">
+                          <input type="number"
+                            class="form-control"  name="Codigo" id="CD" aria-describedby="helpId" min="0" required maxlength="11" placeholder="Codigo del producto">
                         </div>
                         <div class="mb-3">
                             <label for="Nombre" class="form-label">Nombre</label>
                             <input type="text"
-                              class="form-control" name="Nombre" id="NOM" aria-describedby="helpId" placeholder="Nombre del producto">
+                              class="form-control" name="Nombre" id="NOM" aria-describedby="helpId" required maxlength="50" placeholder="Nombre del producto">
                           </div>
                           <div class="mb-3">
                             <label for="Cantidad" class="form-label">Precio de compra</label>
-                            <input type="text" 
-                              class="form-control" name="Prec" id="PC" aria-describedby="helpId" placeholder="Costo del producto">
+                            <input type="number"  min="0"
+                              class="form-control" name="Prec" id="PC" aria-describedby="helpId" required maxlength="11" placeholder="Costo del producto">
                           </div>
                           <div class="mb-3">
                             <label for="Costo" class="form-label">Precio de venta</label>
-                            <input type="text"
-                              class="form-control" name="Prev" id="PV" aria-describedby="helpId" placeholder="Precio del producto">
+                            <input type="number" min="0"
+                              class="form-control" name="Prev" id="PV" aria-describedby="helpId" required maxlength="11" placeholder="Precio del producto">
                           </div>
                           <div class="mb-3">
                             <label for="Costo" class="form-label">Existencias</label>
-                            <input type="text"
-                              class="form-control" name="Existen" id="EXI" aria-describedby="helpId" placeholder="Cantidad del producto">
+                            <input type="number" min="0"
+                              class="form-control" name="Existen" id="EXI" aria-describedby="helpId" required maxlength="11" placeholder="Cantidad del producto">
                           </div>
                           <div class="mb-3">
                             <label for="Costo" class="form-label">Restricion</label>
-                            <input type="text"
-                              class="form-control" name="Rest" id="RES" aria-describedby="helpId" placeholder="Edad para comprar el producto">
+                            <input type="number" min="0"
+                              class="form-control" name="Rest" id="RES" aria-describedby="helpId" required maxlength="11" placeholder="Edad para comprar el producto">
                           </div>
                           <div class="mb-3">
                             <label for="Costo" class="form-label">Imagen</label>
                             <input type="file" 
-                              class="form-control" name="imagen" id="imagen" aria-describedby="helpId" placeholder="Edad para comprar el producto">
+                              class="form-control" name="imagen" id="imagen" aria-describedby="helpId" maxlength="255" placeholder="Edad para comprar el producto">
                           </div>
                           
                           <button type="submit" class="btn btn-primary" >Agregar</button>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-05-2023 a las 16:12:59
+-- Tiempo de generación: 18-05-2023 a las 16:14:28
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -42,6 +42,21 @@ CREATE TABLE `administrador` (
 
 INSERT INTO `administrador` (`id`, `nombre`, `horario`, `usuario`, `correo`, `contra`) VALUES
 (1, 'Francisco Cardenas', '8 a.m- 9.am', 'Frank', 'frankcardenas@gmail.com', 'Frank');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carrito`
+--
+
+CREATE TABLE `carrito` (
+  `id` int(11) NOT NULL,
+  `Producto` varchar(50) NOT NULL,
+  `Precio` int(11) NOT NULL,
+  `Cantidad` int(11) NOT NULL,
+  `Total` int(11) NOT NULL,
+  `Correo` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 

@@ -64,6 +64,28 @@ def agrepro():
     conn.commit()
     return redirect('/agregar')
 
+@app.route("/agreclie", methods=['POST'])
+def agreclie():
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente":
+        return redirect('/')
+    codigo = request.form['Codigo']
+    nombre = request.form['Nombre']
+    edad = request.form['Prec']
+    Nombreusuario = request.form['Prev']
+    Email = request.form['Existen']
+    Contraseña = request.form['Rest']
+
+        
+    query = "INSERT INTO clientes (id, nombre, edad, usuario, correo, contra) VALUES (%s, %s, %s, %s, %s, %s)"
+    values = (codigo, nombre, edad, Nombreusuario, Email, Contraseña)
+    
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(query, values)
+    conn.commit()
+    return redirect('/agregar2')
 
 @app.route("/mostrar")
 def mostrar():
@@ -102,9 +124,6 @@ def mostcarr():
     return render_template('sitio/carrito.html',carrito=carrito,suma_total=suma_total)
 
 
-
-
-
 @app.route("/agregar")
 def agre():
     if not 'login' in session:
@@ -118,6 +137,20 @@ def agre():
     productos=cursor.fetchall()
     conn.commit()
     return render_template('admin/masprodad.html',productos=productos)
+
+@app.route("/agregar2")
+def agre2():
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente":
+        return redirect('/')
+    sql="SELECT * FROM `clientes`;"
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql)
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('admin/mclientes.html',productos=productos)
 
 @app.route("/cliente")
 def clientes():

@@ -168,6 +168,22 @@ def clientes():
     conn.commit()
     return render_template('admin/mclientes.html',productos=productos)
 
+@app.route("/ticket")
+def ticket():
+
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente":
+        return redirect('/')
+        
+    sql="SELECT * FROM `ticket`;"
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql)
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('admin/mtick.html',productos=productos)
+
 @app.route('/destroy/<int:id>')
 def destroy(id):
     if not 'login' in session:

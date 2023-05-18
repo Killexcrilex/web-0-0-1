@@ -1,0 +1,62 @@
+{% include 'admin/caad.html' %}
+<br>
+<div class="container">
+        <div class="col-12">
+            <div class="card text-bg-dark">
+                 <div class="card-header">
+                    Productos
+                 </div>
+                 <div class="card-body">
+ 
+                    <div class="container">
+                        <div class="row">
+                                        <table class="table table-dark">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Nombre</th>
+                                                    <th>Edad</th>
+                                                    <th>Usuario</th>
+                                                    <th>Correo</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for producto in productos %}
+                                                    
+                                                <tr>
+                                                    <td>{{producto[0] }}</td>
+                                                    <td>{{producto[1] }}</td>
+                                                    <td>{{producto[2] }}</td>
+                                                    <td>{{producto[3] }}</td>
+                                                    <td>{{producto[4] }}</td>
+                                                    <td>
+                                                        {% if session['rango']!="cliente" %}
+                                                            <a type="button" class="btn btn-warning" href="/edid/{{producto[0]}}">Editar</a> 
+                                                            {% if session['rango']=="admin" %}
+                                                            <a>|</a>
+                                                            <a type="button" class="btn btn-danger" href="/destroy/{{producto[0]}}">Eliminar</a>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                            
+                                                    </td>
+                                                    
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        </form>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+ 
+                 </div>
+             </div>
+         </div>
+        
+    </div>
+</div>
+
+{% include 'admin/piead.html' %}

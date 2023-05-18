@@ -184,6 +184,22 @@ def ticket():
     conn.commit()
     return render_template('admin/mtick.html',productos=productos)
 
+@app.route("/trabajadores")
+def trabajadores():
+
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente":
+        return redirect('/')
+        
+    sql="SELECT * FROM `trabajador`;"
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql)
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('admin/mtrabajador.html',productos=productos)
+
 @app.route('/destroy/<int:id>')
 def destroy(id):
     if not 'login' in session:
@@ -196,6 +212,20 @@ def destroy(id):
     productos=cursor.fetchall()
     conn.commit()
     return redirect('/agregar')
+
+
+@app.route('/destroyClient/<int:id>')
+def destroyClient(id):
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
+        return redirect('/admin')
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute("DELETE FROM clientes WHERE id=%s",(id))
+    productos=cursor.fetchall()
+    conn.commit()
+    return redirect('/cliente')
 
 @app.route('/edid/<int:id>')
 def edid(id):

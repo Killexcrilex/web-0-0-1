@@ -2,8 +2,7 @@
 <br>
 <div class=" p-5 bg-dark col-auto text-center">
     <div class="container">
-        <h2 class="display-3">Bienvenido Administrador</h2>
-        <h2 class="display-3"><strong>{{ session['usuario'] }}</strong></h2>
+        <h2 class="display-3">Bienvenido: <strong>{{ session['usuario'] }}</strong></h2>
         <p class="lead">Aqui tiene poder de todo el sistema de rango: {{ session['rango'] }}</p>
         
         {% if  session['rango']!="admin" and  session['rango']!="empleado" %}
@@ -16,6 +15,9 @@
             <a class="btn btn-primary btn-lg" href="/agregar" type="button">Ver productos</a>
             <a class="btn btn-primary btn-lg" href="/cliente" type="button">Ver clientes</a>
             <a class="btn btn-primary btn-lg" href="/ticket" type="button">Ver Ticket</a>
+            {% if  session['rango']=="admin" %}
+            <a class="btn btn-primary btn-lg" href="/trabajadores" type="button">Ver Trabajadores</a>
+        {% endif %}
         </p>
     </div>
 </div>

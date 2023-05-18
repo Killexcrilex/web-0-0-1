@@ -1,9 +1,10 @@
 {% include 'admin/caad.html' %}
 <br>
+<script src="{{ url_for('static', filename='js/j.js') }}"></script>
 <div class="container">
     {% if session['rango']!="empleado" %}
     <div class="row">
-        <div class="col-4">
+        <div class="col-3">
            <div class="card text-bg-dark">
                 <div class="card-header">
                     Agregar productos
@@ -14,33 +15,32 @@
                         
                         <div class="mb-3">
                           <label for="Codigo" class="form-label">Codigo</label>
-                          <input type="number"
-                            class="form-control"  name="Codigo" id="CD" aria-describedby="helpId" min="0" placeholder="Codigo del producto">
+                          <input type="text"
+                            class="form-control"  name="Codigo" id="CD" aria-describedby="helpId" placeholder="Codigo del producto">
                         </div>
                         <div class="mb-3">
                             <label for="Nombre" class="form-label">Nombre</label>
                             <input type="text"
-                              class="form-control" name="Nombre" id="NOM" aria-describedby="helpId"  placeholder="Nombre del producto">
+                              class="form-control" name="Nombre" id="NOM" aria-describedby="helpId" placeholder="Nombre del producto">
                           </div>
                           <div class="mb-3">
                             <label for="Cantidad" class="form-label">Precio de compra</label>
-                            <input type="number" 
-                              class="form-control" name="Prec" id="PC" aria-describedby="helpId" min="0" placeholder="Costo del producto">
+                            <input type="text" 
+                              class="form-control" name="Prec" id="PC" aria-describedby="helpId" placeholder="Costo del producto" oninput="validateInput()">
                           </div>
                           <div class="mb-3">
                             <label for="Costo" class="form-label">Precio de venta</label>
-                            <input type="number"
-                             class="form-control" name="Prev" id="PV" 
-                             aria-describedby="helpId" min="0" placeholder="Precio del producto">
+                            <input type="text"
+                              class="form-control" name="Prev" id="PV" aria-describedby="helpId" placeholder="Precio del producto">
                           </div>
                           <div class="mb-3">
                             <label for="Costo" class="form-label">Existencias</label>
-                            <input type="number"
+                            <input type="text"
                               class="form-control" name="Existen" id="EXI" aria-describedby="helpId" placeholder="Cantidad del producto">
                           </div>
                           <div class="mb-3">
                             <label for="Costo" class="form-label">Restricion</label>
-                            <input type="number"
+                            <input type="text"
                               class="form-control" name="Rest" id="RES" aria-describedby="helpId" placeholder="Edad para comprar el producto">
                           </div>
                           <div class="mb-3">
@@ -56,7 +56,7 @@
             </div>
         </div>
     {% endif %}
-        <div class="col-8">
+        <div class="col-9">
             <div class="card text-bg-dark">
                  <div class="card-header">
                     Productos
@@ -68,12 +68,12 @@
                             <table class="table table-dark table-responsive">
                                             <thead class="thead-dark">
                                                 <tr>
-                                                    <th>Codigo</th>
+                                                    <th>ID</th>
                                                     <th>Nombre</th>
-                                                    <th>Compra</th>
-                                                    <th>Venta</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Edad de compra</th>
+                                                    <th>Horario</th>
+                                                    <th>Salario</th>
+                                                    <th>Usuario</th>
+                                                    <th>Correo</th>
                                                     {% if session['rango']!="empleado" %}
                                                     <th>Acciones</th>
                                                     {% endif %}
@@ -92,9 +92,9 @@
                                                     
                                                     {% if session['rango']!="empleado" %}
                                                         <td>
-                                                            <a type="button" class="btn btn-warning" href="/edid/{{producto[0]}}">Editar</a> 
+                                                            <a type="button" class="btn btn-warning" href="/#/{{producto[0]}}">Editar</a> 
                                                             <a>|</a>
-                                                            <a type="button" class="btn btn-danger" href="/destroy/{{producto[0]}}">Eliminar</a>
+                                                            <a type="button" class="btn btn-danger" href="/#/{{producto[0]}}">Eliminar</a>
                                                         </td>
                                                     {% endif %}
                                                 </tr>

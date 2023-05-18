@@ -1,7 +1,6 @@
 {% include 'admin/caad.html' %}
 <br>
 <div class="container">
-    {% if session['rango']!="empleado" %}
     <div class="row">
         <div class="col-4">
            <div class="card text-bg-dark">
@@ -13,7 +12,7 @@
                     <form action='/store' method="post">
                         
                         <div class="mb-3">
-                          <label for="Codigo" class="form-label">Codigo</label>
+                          <label for="Codigo" class="form-label">ID</label>
                           <input type="text"
                             class="form-control" name="Codigo" id="CD" aria-describedby="helpId" placeholder="Codigo del producto">
                         </div>
@@ -48,7 +47,6 @@
                 </div>
             </div>
         </div>
-    {% endif %}
         <div class="col-8">
             <div class="card text-bg-dark">
                  <div class="card-header">
@@ -61,15 +59,12 @@
                                         <table class="table table-dark">
                                             <thead class="thead-dark">
                                                 <tr>
-                                                    <th>Codigo</th>
+                                                    <th>ID</th>
                                                     <th>Nombre</th>
-                                                    <th>Compra</th>
-                                                    <th>Venta</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Edad de compra</th>
-                                                    {% if session['rango']!="empleado" %}
+                                                    <th>Edad</th>
+                                                    <th>Usuario</th>
+                                                    <th>Correo</th>
                                                     <th>Acciones</th>
-                                                    {% endif %}
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -81,14 +76,11 @@
                                                     <td>{{producto[2] }}</td>
                                                     <td>{{producto[3] }}</td>
                                                     <td>{{producto[4] }}</td>
-                                                    <td>{{producto[5] }}</td>
+                                                    <td>
+                                                        <!-- <a type="button" class="btn btn-warning" href="/edid/{{producto[0]}}">Editar</a> | 
+                                                        <a type="button" class="btn btn-danger" href="/destroy/{{producto[0]}}">Eliminar</a> -->
+                                                    </td>
                                                     
-                                                    {% if session['rango']!="empleado" %}
-                                                        <td>
-                                                            <a type="button" class="btn btn-warning" href="/edid/{{producto[0]}}">Editar</a> | 
-                                                            <a type="button" class="btn btn-danger" href="/destroy/{{producto[0]}}">Eliminar</a>
-                                                        </td>
-                                                    {% endif %}
                                                 </tr>
                                                 {% endfor %}
                                             </tbody>

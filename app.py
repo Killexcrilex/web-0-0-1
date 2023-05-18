@@ -34,24 +34,28 @@ def cerrar():
 def admin():
     if not 'login' in session:
         return redirect('/')
+    if session["rango"]=="cliente":
+        return redirect('/')
     return render_template('admin/admin.html')
 
 @app.route("/agrepro")
 def agrepro():
-   if not 'login' in session:
+    if not 'login' in session:
         return redirect('/')
-   _nom=request.form['Nombre']
-   _prec=request.form['Prec']
-   _prev=request.form['Prev']
-   _exis=request.form['Existen']
-   _res=request.form['Rest']
-   sql="INSERT INTO productos SET VALUES `Nombre`=%s, `preciodecompra`=%s, `preciodeventa`=%s, `existencia`=%s, `restriccion`=%s;"
-   datos=(_nom,_prec,_prev,_exis,_res)
-   conn=mysql.connect()
-   cursor=conn.cursor()
-   cursor.execute(sql,datos)
-   conn.commit()
-   return render_template('admin/masprodad.html')
+    if session["rango"]=="cliente":
+        return redirect('/')
+    _nom=request.form['Nombre']
+    _prec=request.form['Prec']
+    _prev=request.form['Prev']
+    _exis=request.form['Existen']
+    _res=request.form['Rest']
+    sql="INSERT INTO productos SET VALUES `Nombre`=%s, `preciodecompra`=%s, `preciodeventa`=%s, `existencia`=%s, `restriccion`=%s;"
+    datos=(_nom,_prec,_prev,_exis,_res)
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql,datos)
+    conn.commit()
+    return render_template('admin/masprodad.html')
 
 @app.route("/mostrar")
 def mostrar():
@@ -65,6 +69,7 @@ def mostrar():
     productos=cursor.fetchall()
     conn.commit()
     return render_template('sitio/Productos.html',productos=productos)
+
 
 
 @app.route("/mostcarr")
@@ -96,6 +101,8 @@ def mostcarr():
 def agre():
     if not 'login' in session:
         return redirect('/')
+    if session["rango"]=="cliente":
+        return redirect('/')
     sql="SELECT * FROM `productos`;"
     conn=mysql.connect()
     cursor=conn.cursor()
@@ -104,10 +111,28 @@ def agre():
     conn.commit()
     return render_template('admin/masprodad.html',productos=productos)
 
+@app.route("/cliente")
+def clientes():
+
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente":
+        return redirect('/')
+        
+    sql="SELECT * FROM `clientes`;"
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql)
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('admin/mclientes.html',productos=productos)
+
 @app.route('/destroy/<int:id>')
 def destroy(id):
     if not 'login' in session:
         return redirect('/')
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
+        return redirect('/admin')
     conn=mysql.connect()
     cursor=conn.cursor()
     cursor.execute("DELETE FROM productos WHERE Codigo=%s",(id))
@@ -119,6 +144,8 @@ def destroy(id):
 def edid(id):
     if not 'login' in session:
         return redirect('/')
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
+        return redirect('/admin')
     conn=mysql.connect()
     cursor=conn.cursor()
     cursor.execute("SELECT * FROM productos WHERE Codigo=%s",(id))
@@ -129,6 +156,9 @@ def edid(id):
 @app.route("/act", methods=['POST'])
 def act():
     if not 'login' in session:
+        return redirect('/')
+    
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
         return redirect('/')
     id=request.form['Codigo']
     _nom=request.form['Nombre']
@@ -148,6 +178,9 @@ def act():
 def act2():
     if not 'login' in session:
         return redirect('/')
+    
+    if session["rango"]=="cliente":
+        return redirect('/')
     id=request.form['Codigo']
     _nom=request.form['Nombre']
     _prev=request.form['preciodecompra']
@@ -165,7 +198,7 @@ def act2():
 # Ruta de inicio de seccion correcto como admin
 @app.route("/Loginadmin")
 def Loginadmin():
-    if 'login' in session and session.get('rango') == 'admin':
+    if 'login' in session and session.get('rango') == 'admin' or 'login' in session and session.get('rango') == 'empleado':
         return redirect('/admin')
     if 'login' in session and session.get('rango') == 'cliente':
         return redirect('/mostrar')
@@ -182,6 +215,7 @@ def ad_log():
 
     sql_admin = "SELECT * FROM `administrador` WHERE usuario = %s;"
     sql_clientes = "SELECT * FROM `clientes` WHERE usuario = %s;"
+    sql_empleados = "SELECT * FROM `trabajador` WHERE usuario = %s;"
 
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -194,9 +228,13 @@ def ad_log():
     cursor.execute(sql_clientes, (_corr,))
     usuario_result = cursor.fetchall()
 
+     # Consulta para empleados
+    cursor.execute(sql_empleados, (_corr,))
+    empleado_result = cursor.fetchall()
+
     conn.commit()
 
-    if not admin_result and not usuario_result:
+    if not admin_result and not usuario_result and not empleado_result:
         return render_template('admin/loginadmin.html')
 
     if admin_result and _corr == admin_result[0][3] and _con == admin_result[0][5]:
@@ -207,11 +245,19 @@ def ad_log():
         session["edad"] = 99
         return redirect('/admin')
 
+    if empleado_result and _corr == empleado_result[0][4] and _con == empleado_result[0][6]:
+        session["login"] = "admin"
+        session["usuario"] = empleado_result[0][4]
+        session["rango"] = "empleado"
+        session["correo"] = empleado_result[0][5]
+        session["edad"] = 99
+        return redirect('/admin')
+
     if usuario_result and _corr == usuario_result[0][3] and _con == usuario_result[0][5]:
         session["login"] = "usuario"
         session["usuario"] = usuario_result[0][1]
         session["rango"] = "cliente"
-        session["correo"] = admin_result[0][4]
+        session["correo"] = usuario_result[0][4]
         session["edad"] = usuario_result[0][2]
         return redirect('/mostrar')
 

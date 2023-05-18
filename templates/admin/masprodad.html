@@ -15,7 +15,7 @@
                         <div class="mb-3">
                           <label for="Codigo" class="form-label">Codigo</label>
                           <input type="text"
-                            class="form-control" readonly=»readonly»  name="Codigo" id="CD" aria-describedby="helpId" placeholder="Codigo del producto">
+                            class="form-control"  name="Codigo" id="CD" aria-describedby="helpId" placeholder="Codigo del producto">
                         </div>
                         <div class="mb-3">
                             <label for="Nombre" class="form-label">Nombre</label>
@@ -91,7 +91,7 @@
                                                     
                                                     {% if session['rango']!="empleado" %}
                                                         <td>
-                                                            <a type="button" class="btn btn-warning" href="/edid/{{producto[0]}}">Editar</a> | 
+                                                            <a type="button" class="btn btn-warning" href="/edid/{{producto[0]}}">Editar</a> 
                                                             <a type="button" class="btn btn-danger" href="/destroy/{{producto[0]}}">Eliminar</a>
                                                         </td>
                                                     {% endif %}

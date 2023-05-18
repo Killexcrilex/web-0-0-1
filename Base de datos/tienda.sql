@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-05-2023 a las 16:09:42
+-- Tiempo de generación: 18-05-2023 a las 16:12:59
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -42,21 +42,6 @@ CREATE TABLE `administrador` (
 
 INSERT INTO `administrador` (`id`, `nombre`, `horario`, `usuario`, `correo`, `contra`) VALUES
 (1, 'Francisco Cardenas', '8 a.m- 9.am', 'Frank', 'frankcardenas@gmail.com', 'Frank');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `carrito`
---
-
-CREATE TABLE `carrito` (
-  `id` int(11) NOT NULL,
-  `Producto` varchar(50) NOT NULL,
-  `Precio` int(11) NOT NULL,
-  `Cantidad` int(11) NOT NULL,
-  `Total` int(11) NOT NULL,
-  `Correo` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -104,14 +89,14 @@ INSERT INTO `productos` (`codigo`, `Nombre`, `preciodecompra`, `preciodeventa`, 
 (1, 'Fresca 600 ml', 18, 20, 1, 1, 'fre.jpeg'),
 (2, 'Tonayan 500ml', 12, 30, 18, 18, 'tona.jpeg'),
 (3, 'Pasta Colgate', 10, 45, 10, 0, 'col.jpg'),
-(4, 'Pepsi 600ml', 10, 18, 24, 0, 'reTIEN\\pep.jpeg'),
-(5, 'Coca-cola 600ml', 13, 18, 24, 0, 'reTIEN\\coca.jpg'),
-(6, 'Maruchan de Camaron ', 13, 16, 24, 0, 'reTIEN\\mar.jpg'),
-(7, 'Fanta 600ml', 13, 18, 24, 0, 'reTIEN\\fan.jpg'),
-(8, 'Doritos Pizzerola', 15, 16, 15, 0, '/reTIEN\\dp.jpeg'),
-(10, 'Rufles de queso', 17, 18, 15, 0, 'reTIEN\\ruf.jpg'),
-(11, 'Sabritas crema y especias', 17, 18, 15, 0, 'reTIEN\\sce.jpeg'),
-(12, 'Cigarros Alaska', 54, 64, 24, 18, 'reTIEN\\alas.jpg');
+(4, 'Pepsi 600ml', 10, 18, 24, 0, 'pep.jpeg'),
+(5, 'Coca-cola 600ml', 13, 18, 24, 0, 'coca.jpg'),
+(6, 'Maruchan de Camaron ', 13, 16, 24, 0, 'mar.jpg'),
+(7, 'Fanta 600ml', 13, 18, 24, 0, 'fan.jpg'),
+(8, 'Doritos Pizzerola', 15, 16, 15, 0, 'dp.jpeg'),
+(10, 'Rufles de queso', 17, 18, 15, 0, 'ruf.jpg'),
+(11, 'Sabritas crema y especias', 17, 18, 15, 0, 'sce.jpeg'),
+(12, 'Cigarros Alaska', 54, 64, 24, 18, 'alas.jpg');
 
 -- --------------------------------------------------------
 

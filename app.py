@@ -38,24 +38,32 @@ def admin():
         return redirect('/')
     return render_template('admin/admin.html')
 
-@app.route("/agrepro")
+@app.route("/agrepro", methods=['POST'])
 def agrepro():
     if not 'login' in session:
         return redirect('/')
     if session["rango"]=="cliente":
         return redirect('/')
-    _nom=request.form['Nombre']
-    _prec=request.form['Prec']
-    _prev=request.form['Prev']
-    _exis=request.form['Existen']
-    _res=request.form['Rest']
-    sql="INSERT INTO productos SET VALUES `Nombre`=%s, `preciodecompra`=%s, `preciodeventa`=%s, `existencia`=%s, `restriccion`=%s;"
-    datos=(_nom,_prec,_prev,_exis,_res)
+    codigo = request.form['Codigo']
+    nombre = request.form['Nombre']
+    precio_compra = request.form['Prec']
+    precio_venta = request.form['Prev']
+    existencias = request.form['Existen']
+    restriccion = request.form['Rest']
+    _img=request.files['imagen']
+
+    if _img.filename != '':
+        _img.save(f"reTIEN\{_img.filename}")
+        
+    query = "INSERT INTO productos (codigo, Nombre, preciodecompra, preciodeventa, existencia, restriccion,imagen) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+    values = (codigo, nombre, precio_compra, precio_venta, existencias, restriccion,_img)
+    
     conn=mysql.connect()
     cursor=conn.cursor()
-    cursor.execute(sql,datos)
+    cursor.execute(query, values)
     conn.commit()
-    return render_template('admin/masprodad.html')
+    return redirect('/agregar')
+
 
 @app.route("/mostrar")
 def mostrar():
@@ -166,8 +174,13 @@ def act():
     _prec=request.form['preciodeventa']
     _exi=request.form['existencia']
     _rest=request.form['restriccion']
-    sql="UPDATE productos SET `Nombre`=%s, `preciodecompra`=%s, `preciodeventa`=%s, `existencia`=%s, `restriccion`=%s WHERE codigo=%s ;"
-    datos=(_nom,_prev,_prec	,_exi,_rest,id)
+    _img=request.files['imagen']
+
+    if _img.filename != '':
+        _img.save(f"reTIEN\{_img.filename}")
+        
+    sql="UPDATE productos SET `Nombre`=%s, `preciodecompra`=%s, `preciodeventa`=%s, `existencia`=%s, `restriccion`=%s,`imagen`=%s WHERE codigo=%s ;"
+    datos=(_nom,_prev,_prec,_exi,_rest,_img.filename,id)
     conn=mysql.connect()
     cursor=conn.cursor()
     cursor.execute(sql,datos)
@@ -213,9 +226,9 @@ def ad_log():
         flash('Recuerda llenar los datos de los campos')
         return render_template('admin/loginadmin.html')
 
-    sql_admin = "SELECT * FROM `administrador` WHERE usuario = %s;"
-    sql_clientes = "SELECT * FROM `clientes` WHERE usuario = %s;"
-    sql_empleados = "SELECT * FROM `trabajador` WHERE usuario = %s;"
+    sql_admin = "SELECT * FROM `administrador` WHERE correo = %s;"
+    sql_clientes = "SELECT * FROM `clientes` WHERE correo = %s;"
+    sql_empleados = "SELECT * FROM `trabajador` WHERE correo = %s;"
 
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -237,7 +250,7 @@ def ad_log():
     if not admin_result and not usuario_result and not empleado_result:
         return render_template('admin/loginadmin.html')
 
-    if admin_result and _corr == admin_result[0][3] and _con == admin_result[0][5]:
+    if admin_result and _corr == admin_result[0][4] and _con == admin_result[0][5]:
         session["login"] = "admin"
         session["usuario"] = admin_result[0][1]
         session["rango"] = "admin"
@@ -245,7 +258,7 @@ def ad_log():
         session["edad"] = 99
         return redirect('/admin')
 
-    if empleado_result and _corr == empleado_result[0][4] and _con == empleado_result[0][6]:
+    if empleado_result and _corr == empleado_result[0][5] and _con == empleado_result[0][6]:
         session["login"] = "admin"
         session["usuario"] = empleado_result[0][4]
         session["rango"] = "empleado"
@@ -253,7 +266,7 @@ def ad_log():
         session["edad"] = 99
         return redirect('/admin')
 
-    if usuario_result and _corr == usuario_result[0][3] and _con == usuario_result[0][5]:
+    if usuario_result and _corr == usuario_result[0][4] and _con == usuario_result[0][5]:
         session["login"] = "usuario"
         session["usuario"] = usuario_result[0][1]
         session["rango"] = "cliente"

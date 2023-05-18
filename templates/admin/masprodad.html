@@ -10,12 +10,12 @@
                 </div>
                 <div class="card-body">
 
-                    <form action='/store' method="post">
+                    <form action='/agrepro' method="post" enctype="multipart/form-data">
                         
                         <div class="mb-3">
                           <label for="Codigo" class="form-label">Codigo</label>
                           <input type="text"
-                            class="form-control" name="Codigo" id="CD" aria-describedby="helpId" placeholder="Codigo del producto">
+                            class="form-control" readonly=»readonly»  name="Codigo" id="CD" aria-describedby="helpId" placeholder="Codigo del producto">
                         </div>
                         <div class="mb-3">
                             <label for="Nombre" class="form-label">Nombre</label>
@@ -42,7 +42,13 @@
                             <input type="text"
                               class="form-control" name="Rest" id="RES" aria-describedby="helpId" placeholder="Edad para comprar el producto">
                           </div>
-                          <button type="submit" class="btn btn-primary" href="/agrepro">Agregar</button>
+                          <div class="mb-3">
+                            <label for="Costo" class="form-label">Imagen</label>
+                            <input type="file" 
+                              class="form-control" name="imagen" id="imagen" aria-describedby="helpId" placeholder="Edad para comprar el producto">
+                          </div>
+                          
+                          <button type="submit" class="btn btn-primary" >Agregar</button>
                     </form>
 
                 </div>

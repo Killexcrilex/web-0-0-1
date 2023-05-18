@@ -9,39 +9,39 @@
                 </div>
                 <div class="card-body">
 
-                    <form action='/store' method="post">
+                    <form action='/agreclie' method="post">
                         
                         <div class="mb-3">
                           <label for="Codigo" class="form-label">ID</label>
-                          <input type="text"
-                            class="form-control" name="Codigo" id="CD" aria-describedby="helpId" placeholder="Codigo del producto">
+                          <input type="number" required min="0"
+                            class="form-control" name="Codigo" id="CD" aria-describedby="helpId" placeholder="Codigo del cliente">
                         </div>
                         <div class="mb-3">
                             <label for="Nombre" class="form-label">Nombre</label>
-                            <input type="text"
-                              class="form-control" name="Nombre" id="NOM" aria-describedby="helpId" placeholder="Nombre del producto">
+                            <input type="text" required
+                              class="form-control" name="Nombre" id="NOM" aria-describedby="helpId" placeholder="Nombre del cliente">
                           </div>
                           <div class="mb-3">
-                            <label for="Edad" class="form-label">Precio de compra</label>
-                            <input type="text" 
-                              class="form-control" name="Prec" id="PC" aria-describedby="helpId" placeholder="Costo del producto">
+                            <label for="Edad" class="form-label">Edad</label>
+                            <input type="number" required min="0"
+                              class="form-control" name="Prec" id="PC" aria-describedby="helpId" placeholder="Edad del cliente">
                           </div>
                           <div class="mb-3">
-                            <label for="Nombreusuario" class="form-label">Precio de venta</label>
-                            <input type="text"
-                              class="form-control" name="Prev" id="PV" aria-describedby="helpId" placeholder="Precio del producto">
+                            <label for="Nombreusuario" class="form-label">Nombre Usuario</label>
+                            <input type="text" required
+                              class="form-control" name="Prev" id="PV" aria-describedby="helpId" placeholder="Nombre de usuario">
                           </div>
                           <div class="mb-3">
-                            <label for="Costo" class="form-label">Existencias</label>
-                            <input type="text"
-                              class="form-control" name="Existen" id="EXI" aria-describedby="helpId" placeholder="Cantidad del producto">
+                            <label for="Email" class="form-label">Correo electronico</label>
+                            <input type="email" required
+                              class="form-control" name="Existen" id="EXI" aria-describedby="helpId" placeholder="Correo electronico">
                           </div>
                           <div class="mb-3">
-                            <label for="Costo" class="form-label">Restricion</label>
-                            <input type="text"
-                              class="form-control" name="Rest" id="RES" aria-describedby="helpId" placeholder="Edad para comprar el producto">
+                            <label for="Contraseña" class="form-label">Contraseña</label>
+                            <input type="password" required
+                              class="form-control" name="Rest" id="RES" aria-describedby="helpId" placeholder="Contraseña">
                           </div>
-                          <button type="submit" class="btn btn-primary" href="/agrepro">Agregar</button>
+                          <button type="submit" class="btn btn-primary">Agregar</button>
                     </form>
 
                 </div>

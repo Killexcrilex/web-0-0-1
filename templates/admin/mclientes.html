@@ -64,7 +64,14 @@
                                                     <th>Edad</th>
                                                     <th>Usuario</th>
                                                     <th>Correo</th>
-                                                    <th>Acciones</th>
+                                                    <th>
+                                                        {% if session['rango']=="empleado" %}
+                                                                <a>Acción</a>
+                                                        {% endif %}
+                                                        {% if session['rango']=="admin" %}
+                                                        <a>Acciones</a>
+                                                        {% endif %}
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -78,10 +85,10 @@
                                                     <td>{{producto[4] }}</td>
                                                     <td>
                                                         {% if session['rango']!="cliente" %}
-                                                            <a type="button" class="btn btn-warning" href="/edid/{{producto[0]}}">Editar</a> 
+                                                            <a type="button" class="btn btn-warning" href="/edidc/{{producto[0]}}">Editar</a> 
                                                             {% if session['rango']=="admin" %}
                                                                 <a>|</a>
-                                                                <a type="button" class="btn btn-danger" href="/destroy/{{producto[0]}}">Eliminar</a>
+                                                                <a type="button" class="btn btn-danger" href="/destroyClient/{{producto[0]}}">Eliminar</a>
                                                             {% endif %}
                                                         {% endif %}
                                                     </td>

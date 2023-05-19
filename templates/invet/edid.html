@@ -23,7 +23,7 @@
                 {% for producto in productos %}
                  <div class="mb-3">
                    <label for="Codigo" class="form-label">Codigo</label>
-                   <input type="text"  value="{{ producto[0] }}"
+                   <input type="number"  value="{{ producto[0] }}"
                      class="form-control"  readonly=»readonly»  name="Codigo" id="CD" aria-describedby="helpId" placeholder="Codigo del producto" maxlength="11">
                  </div>
                  <div class="mb-3">
@@ -33,23 +33,23 @@
                    </div>
                    <div class="mb-3">
                      <label for="cantidad" class="form-label">Precio de Compra</label>
-                     <input type="text"  value="{{ producto[2] }}"
-                       class="form-control" name="preciodecompra" id="Prec" aria-describedby="helpId" placeholder="Cantidad del producto" maxlength="11">
+                     <input type="number"  value="{{ producto[2] }}"
+                       class="form-control" name="preciodecompra" id="Prec" aria-describedby="helpId" placeholder="Cantidad del producto" min="0" maxlength="11">
                    </div>
                    <div class="mb-3">
                     <label for="cantidad" class="form-label">Precio de Venta</label>
-                    <input type="text"  value="{{ producto[3] }}"
-                      class="form-control" name="preciodeventa" id="Prev" aria-describedby="helpId" placeholder="Cantidad del producto" maxlength="11">
+                    <input type="number"  value="{{ producto[3] }}"
+                      class="form-control" name="preciodeventa" id="Prev" aria-describedby="helpId" placeholder="Cantidad del producto"  min="0" maxlength="11">
                   </div>
                   <div class="mb-3">
                     <label for="cantidad" class="form-label">Existencia</label>
-                    <input type="text"  value="{{ producto[4] }}"
-                      class="form-control" name="existencia" id="Exi" aria-describedby="helpId" placeholder="Cantidad del producto" maxlength="11">
+                    <input type="number"  value="{{ producto[4] }}"
+                      class="form-control" name="existencia" id="Exi" aria-describedby="helpId" placeholder="Cantidad del producto"  min="0" maxlength="11">
                   </div>
                    <div class="mb-3">
                      <label for="costo" class="form-label">Restriccion</label>
-                     <input type="text"  value="{{ producto[5] }}"
-                       class="form-control" name="restriccion" id="Rres" aria-describedby="helpId" placeholder="Costo del producto" maxlength="11">
+                     <input type="number"  value="{{ producto[5] }}"
+                       class="form-control" name="restriccion" id="Rres" aria-describedby="helpId" placeholder="Costo del producto"  min="0" maxlength="11">
                    </div>
                    <div class="mb-3">
                     <label for="Costo" class="form-label">Imagen</label>
@@ -57,7 +57,7 @@
                       class="form-control" name="imagen" id="imagen" aria-describedby="helpId" placeholder="Edad para comprar el producto" maxlength="11">
                   </div>
                    
-                   <button type="submit" class="btn btn-success">Guardar</button>
+                   <button type="submit" class="btn btn-warning">Editar</button>
             {% endfor %}
              </form>
 

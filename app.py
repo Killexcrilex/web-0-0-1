@@ -56,7 +56,7 @@ def agrepro():
         _img.save(f"reTIEN\{_img.filename}")
         
     query = "INSERT INTO productos (codigo, Nombre, preciodecompra, preciodeventa, existencia, restriccion,imagen) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-    values = (codigo, nombre, precio_compra, precio_venta, existencias, restriccion,_img.filename)
+    values = (codigo, nombre, precio_compra, precio_venta, existencias, restriccion,_img)
     
     conn=mysql.connect()
     cursor=conn.cursor()
@@ -184,6 +184,22 @@ def ticket():
     conn.commit()
     return render_template('admin/mtick.html',productos=productos)
 
+@app.route("/trabajadores")
+def trabajadores():
+
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente":
+        return redirect('/')
+        
+    sql="SELECT * FROM `trabajador`;"
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql)
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('admin/mtrabajador.html',productos=productos)
+
 @app.route('/destroy/<int:id>')
 def destroy(id):
     if not 'login' in session:
@@ -197,6 +213,20 @@ def destroy(id):
     conn.commit()
     return redirect('/agregar')
 
+
+@app.route('/destroyClient/<int:id>')
+def destroyClient(id):
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
+        return redirect('/admin')
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute("DELETE FROM clientes WHERE id=%s",(id))
+    productos=cursor.fetchall()
+    conn.commit()
+    return redirect('/cliente')
+
 @app.route('/edid/<int:id>')
 def edid(id):
     if not 'login' in session:
@@ -209,6 +239,20 @@ def edid(id):
     productos=cursor.fetchall()
     conn.commit()
     return render_template('invet/edid.html',productos=productos)
+
+#Funcion editar clientes.
+@app.route('/edidc/<int:id>')
+def edidc(id):
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
+        return redirect('/admin')
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute("SELECT * FROM clientes WHERE id=%s",(id))
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('invet/edidc.html',productos=productos)
 
 @app.route("/act", methods=['POST'])
 def act():
@@ -256,50 +300,6 @@ def act2():
     cursor.execute(sql,datos)
     conn.commit()
     return redirect('/productoad')
-#Actualizar clientes.
-@app.route("/act3", methods=['POST'])
-def act3():
-    if not 'login' in session:
-        return redirect('/')
-    
-    if session["rango"]=="cliente" or session["rango"]=="empleado":
-        return redirect('/')
-    id=request.form['id']
-    _nom=request.form['nombre']
-    _prev=request.form['edad']
-    _prec=request.form['usuario']
-    _exi=request.form['correo']
-    _rest=request.form['contra']
-    #_img=request.files['imagen']
-
-    #if _img.filename != '':
-    #    _img.save(f"reTIEN\{_img.filename}")
-    sql="UPDATE clientes SET `nombre`=%s, `edad`=%s, `usuario`=%s, `correo`=%s, `contra`=%s WHERE id=%s ;"
-    datos=(_nom,_prev,_prec,_exi,_rest,id)
-    conn=mysql.connect()
-    cursor=conn.cursor()
-    cursor.execute(sql,datos)
-    conn.commit()
-    return redirect('/cliente')
-
-@app.route('/agregacarrito', methods=['POST'])
-def agregar_al_carrito():
-     
-     producto = request.form.get('producto')
-     precio = request.form.get('precio')
-     cantidad = request.form.get('cantidad')
-     correo = session.get('correo')
-     total = int(precio) * int(cantidad)
-     conn=mysql.connect()
-     cursor=conn.cursor()
-     
-     sql = "INSERT INTO carrito (Producto, Precio, Cantidad, Total, Correo) VALUES (%s, %s, %s, %s, %s)"
-     values = (producto, precio, cantidad, total, correo)
-     cursor.execute(sql, values)
-     conn.commit()
-     cursor.close()
-     return "Producto agregado al carrito"
-
 
 # Ruta de inicio de seccion correcto como admin
 @app.route("/Loginadmin")

@@ -240,6 +240,20 @@ def edid(id):
     conn.commit()
     return render_template('invet/edid.html',productos=productos)
 
+#Funcion editar clientes.
+@app.route('/edidc/<int:id>')
+def edidc(id):
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
+        return redirect('/admin')
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute("SELECT * FROM clientes WHERE id=%s",(id))
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('invet/edidc.html',productos=productos)
+
 @app.route("/act", methods=['POST'])
 def act():
     if not 'login' in session:

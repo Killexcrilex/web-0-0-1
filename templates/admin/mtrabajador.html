@@ -1,52 +1,52 @@
 {% include 'admin/caad.html' %}
 <br>
-<script src="{{ url_for('static', filename='js/j.js') }}"></script>
+<!--<script src="{{ url_for('static', filename='js/j.js') }}"></script>-->
 <div class="container">
     {% if session['rango']!="empleado" %}
     <div class="row">
         <div class="col-3">
            <div class="card text-bg-dark">
                 <div class="card-header">
-                    Agregar productos
+                    Agregar trabajador
                 </div>
                 <div class="card-body">
 
-                    <form action='/agrepro' method="post" enctype="multipart/form-data">
+                    <form action='/agretra' method="post" enctype="multipart/form-data">
                         
                         <div class="mb-3">
-                          <label for="Codigo" class="form-label">Codigo</label>
-                          <input type="text"
-                            class="form-control"  name="Codigo" id="CD" aria-describedby="helpId" placeholder="Codigo del producto">
+                          <label for="ID" class="form-label">ID</label>
+                          <input type="number"
+                            class="form-control"  name="Codigo" id="CD" aria-describedby="helpId" placeholder="ID del trabajador">
                         </div>
                         <div class="mb-3">
                             <label for="Nombre" class="form-label">Nombre</label>
                             <input type="text"
-                              class="form-control" name="Nombre" id="NOM" aria-describedby="helpId" placeholder="Nombre del producto">
+                              class="form-control" name="Nombre" id="NOM" aria-describedby="helpId" placeholder="Nombre del trabajador">
                           </div>
                           <div class="mb-3">
-                            <label for="Cantidad" class="form-label">Precio de compra</label>
+                            <label for="Horario" class="form-label">Horario</label>
                             <input type="text" 
-                              class="form-control" name="Prec" id="PC" aria-describedby="helpId" placeholder="Costo del producto" oninput="validateInput()">
+                              class="form-control" name="Prec" id="PC" aria-describedby="helpId" placeholder="Horario del trabajador" oninput="validateInput()">
                           </div>
                           <div class="mb-3">
-                            <label for="Costo" class="form-label">Precio de venta</label>
+                            <label for="Salario" class="form-label">Salario</label>
+                            <input type="number"
+                              class="form-control" name="Prev" id="PV" aria-describedby="helpId" placeholder="Salario del trabajador">
+                          </div>
+                          <div class="mb-3">
+                            <label for="Usuario" class="form-label">Usuario</label>
                             <input type="text"
-                              class="form-control" name="Prev" id="PV" aria-describedby="helpId" placeholder="Precio del producto">
+                              class="form-control" name="Existen" id="EXI" aria-describedby="helpId" placeholder="Nombre usuario">
                           </div>
                           <div class="mb-3">
-                            <label for="Costo" class="form-label">Existencias</label>
-                            <input type="text"
-                              class="form-control" name="Existen" id="EXI" aria-describedby="helpId" placeholder="Cantidad del producto">
+                            <label for="Correo" class="form-label">Correo electronico</label>
+                            <input type="email"
+                              class="form-control" name="Rest" id="RES" aria-describedby="helpId" placeholder="Correo del trabajador">
                           </div>
                           <div class="mb-3">
-                            <label for="Costo" class="form-label">Restricion</label>
-                            <input type="text"
-                              class="form-control" name="Rest" id="RES" aria-describedby="helpId" placeholder="Edad para comprar el producto">
-                          </div>
-                          <div class="mb-3">
-                            <label for="Costo" class="form-label">Imagen</label>
-                            <input type="file" 
-                              class="form-control" name="imagen" id="imagen" aria-describedby="helpId" placeholder="Edad para comprar el producto">
+                            <label for="Contra" class="form-label">Contraseña</label>
+                            <input type="password" 
+                              class="form-control" name="Contra" id="imagen" aria-describedby="helpId" placeholder="Contraseña">
                           </div>
                           
                           <button type="submit" class="btn btn-primary" >Agregar</button>

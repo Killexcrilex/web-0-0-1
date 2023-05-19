@@ -256,6 +256,31 @@ def act2():
     cursor.execute(sql,datos)
     conn.commit()
     return redirect('/productoad')
+#Actualizar clientes.
+@app.route("/act3", methods=['POST'])
+def act3():
+    if not 'login' in session:
+        return redirect('/')
+    
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
+        return redirect('/')
+    id=request.form['id']
+    _nom=request.form['nombre']
+    _prev=request.form['edad']
+    _prec=request.form['usuario']
+    _exi=request.form['correo']
+    _rest=request.form['contra']
+    #_img=request.files['imagen']
+
+    #if _img.filename != '':
+    #    _img.save(f"reTIEN\{_img.filename}")
+    sql="UPDATE clientes SET `nombre`=%s, `edad`=%s, `usuario`=%s, `correo`=%s, `contra`=%s WHERE id=%s ;"
+    datos=(_nom,_prev,_prec,_exi,_rest,id)
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql,datos)
+    conn.commit()
+    return redirect('/cliente')
 
 @app.route('/agregacarrito', methods=['POST'])
 def agregar_al_carrito():

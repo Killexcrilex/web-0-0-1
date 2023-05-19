@@ -37,7 +37,7 @@ def admin():
     if session["rango"]=="cliente":
         return redirect('/')
     return render_template('admin/admin.html')
-
+#Agregar producto.
 @app.route("/agrepro", methods=['POST'])
 def agrepro():
     if not 'login' in session:
@@ -63,7 +63,7 @@ def agrepro():
     cursor.execute(query, values)
     conn.commit()
     return redirect('/agregar')
-
+#Agregar cliente
 @app.route("/agreclie", methods=['POST'])
 def agreclie():
     if not 'login' in session:
@@ -86,6 +86,30 @@ def agreclie():
     cursor.execute(query, values)
     conn.commit()
     return redirect('/agregar2')
+#Agregar trabajador
+@app.route("/agretra", methods=['POST'])
+def agretra():
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente":
+        return redirect('/')
+    codigo = request.form['Codigo']
+    nombre = request.form['Nombre']
+    Horario = request.form['Prec']
+    Salario = request.form['Prev']
+    Usuario = request.form['Existen']
+    Correo = request.form['Rest']
+    Contraseña = request.form['Contra']
+
+        
+    query = "INSERT INTO trabajador (id, nombre, horario, salario, usuario, correo, contra) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+    values = (codigo, nombre, Horario, Salario, Usuario, Correo, Contraseña)
+    
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(query, values)
+    conn.commit()
+    return redirect('/agregar3')
 
 @app.route("/mostrar")
 def mostrar():
@@ -99,7 +123,6 @@ def mostrar():
     productos=cursor.fetchall()
     conn.commit()
     return render_template('sitio/Productos.html',productos=productos)
-
 
 
 @app.route("/mostcarr")
@@ -151,6 +174,20 @@ def agre2():
     productos=cursor.fetchall()
     conn.commit()
     return render_template('admin/mclientes.html',productos=productos)
+
+@app.route("/agregar3")
+def agre3():
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente":
+        return redirect('/')
+    sql="SELECT * FROM `trabajador`;"
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql)
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('admin/mtrabajador.html',productos=productos)
 
 @app.route("/cliente")
 def clientes():
@@ -300,6 +337,31 @@ def act2():
     cursor.execute(sql,datos)
     conn.commit()
     return redirect('/productoad')
+#Actualizar clientes.
+@app.route("/act3", methods=['POST'])
+def act3():
+    if not 'login' in session:
+        return redirect('/')
+    
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
+        return redirect('/')
+    id=request.form['id']
+    _nom=request.form['nombre']
+    _prev=request.form['edad']
+    _prec=request.form['usuario']
+    _exi=request.form['correo']
+    _rest=request.form['contra']
+    #_img=request.files['imagen']
+
+    #if _img.filename != '':
+    #    _img.save(f"reTIEN\{_img.filename}")
+    sql="UPDATE clientes SET `nombre`=%s, `edad`=%s, `usuario`=%s, `correo`=%s, `contra`=%s WHERE id=%s ;"
+    datos=(_nom,_prev,_prec,_exi,_rest,id)
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql,datos)
+    conn.commit()
+    return redirect('/cliente')
 
 # Ruta de inicio de seccion correcto como admin
 @app.route("/Loginadmin")

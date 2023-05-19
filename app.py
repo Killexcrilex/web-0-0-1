@@ -153,6 +153,24 @@ def mostcarr():
     conn1.commit()
     return render_template('sitio/carrito.html',carrito=carrito,suma_total=suma_total)
 
+@app.route('/agregacarrito', methods=['POST'])
+def agregar_al_carrito():
+
+     producto = request.form.get('producto')
+     precio = request.form.get('precio')
+     cantidad = request.form.get('cantidad')
+     correo = session.get('correo')
+     total = int(precio) * int(cantidad)
+     conn=mysql.connect()
+     cursor=conn.cursor()
+
+     sql = "INSERT INTO carrito (Producto, Precio, Cantidad, Total, Correo) VALUES (%s, %s, %s, %s, %s)"
+     values = (producto, precio, cantidad, total, correo)
+     cursor.execute(sql, values)
+     conn.commit()
+     cursor.close()
+     return "Producto agregado al carrito"
+
 #Agregar 1.
 @app.route("/agregar")
 def agre():

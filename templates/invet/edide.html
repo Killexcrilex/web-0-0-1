@@ -1,0 +1,66 @@
+{% include 'admin/caad.html' %}
+<br>
+<div class="col-5">
+    <div class="card">
+         <div class="card-header">
+             Editar trabajador
+         </div>
+         <div class="card-body">
+             <form 
+             
+             {% if session[ 'rango' ]=="admin" %}
+               
+             action="/act4"
+
+             {% endif %}
+             {% if session[ 'rango' ]==0 %}
+               
+             action="/act2"
+
+             {% endif %}
+             
+             method="post" enctype="multipart/form-data">
+                {% for producto in productos %}
+                 <div class="mb-3">
+                   <label for="ID" class="form-label">ID</label>
+                   <input type="number"  value="{{ producto[0] }}"
+                     class="form-control"  readonly=»readonly»  name="id" id="CD" aria-describedby="helpId" placeholder="ID del empleado" maxlength="11">
+                 </div>
+                 <div class="mb-3">
+                     <label for="Nombre" class="form-label">Nombre</label>
+                     <input type="text"  value="{{ producto[1] }}"
+                       class="form-control" name="nombre" id="NOM" aria-describedby="helpId" placeholder="Nombre del empleado" maxlength="50">
+                   </div>
+                   <div class="mb-3">
+                     <label for="Horario" class="form-label">Horario</label>
+                     <input type="text"  value="{{ producto[2] }}"
+                       class="form-control" name="horario" id="Prec" aria-describedby="helpId" placeholder="Horario del empleado" min="0" maxlength="11">
+                   </div>
+                   <div class="mb-3">
+                    <label for="Salario" class="form-label">Salario</label>
+                    <input type="number"  value="{{ producto[3] }}"
+                      class="form-control" name="salario" id="Prev" aria-describedby="helpId" placeholder="Salario del empelado"  min="0" maxlength="11">
+                  </div>
+                  <div class="mb-3">
+                    <label for="Usuario" class="form-label">Usuario</label>
+                    <input type="text"  value="{{ producto[4] }}"
+                      class="form-control" name="usuario" id="Exi" aria-describedby="helpId" placeholder="Nombre usuario"  min="0" maxlength="11">
+                  </div>
+                  <div class="mb-3">
+                    <label for="Correo" class="form-label">Correo</label>
+                    <input type="email"  value="{{ producto[5] }}"
+                      class="form-control" name="correo" id="Exi" aria-describedby="helpId" placeholder="Correo electronico"  min="0" maxlength="11">
+                  </div>
+                   <div class="mb-3">
+                     <label for="Contraseña" class="form-label">Contraseña</label>
+                     <input type="password"  value="{{ producto[6] }}"
+                       class="form-control" name="contra" id="Rres" aria-describedby="helpId" placeholder="Contraseña"  min="0" maxlength="11">
+                   </div>
+                   <button type="submit" class="btn btn-success">Guardar</button>
+            {% endfor %}
+             </form>
+
+         </div>
+     </div>
+ </div>
+ {% include 'admin/piead.html' %}

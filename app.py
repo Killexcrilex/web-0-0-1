@@ -15,14 +15,17 @@ app.config['MYSQL_DATABASE_USER']='root'
 app.config['MYSQL_DATABASE_PASSWORD']=''
 app.config['MYSQL_DATABASE_DB']='tienda'
 mysql.init_app(app)
+
 # ruta de inicio
 @app.route("/")
 def usuario():
     return redirect('/inicio')
 
+#Ruta inicio 2.
 @app.route("/inicio")
 def usuario2():
     return render_template('sitio/index.html')
+
 # Ruta para cerrar seccion
 @app.route("/cerrar")
 def cerrar():
@@ -37,6 +40,7 @@ def admin():
     if session["rango"]=="cliente":
         return redirect('/')
     return render_template('admin/admin.html')
+
 #Agregar producto.
 @app.route("/agrepro", methods=['POST'])
 def agrepro():
@@ -63,7 +67,8 @@ def agrepro():
     cursor.execute(query, values)
     conn.commit()
     return redirect('/agregar')
-#Agregar cliente
+
+#Agregar cliente.
 @app.route("/agreclie", methods=['POST'])
 def agreclie():
     if not 'login' in session:
@@ -86,7 +91,8 @@ def agreclie():
     cursor.execute(query, values)
     conn.commit()
     return redirect('/agregar2')
-#Agregar trabajador
+
+#Agregar trabajador.
 @app.route("/agretra", methods=['POST'])
 def agretra():
     if not 'login' in session:
@@ -111,6 +117,7 @@ def agretra():
     conn.commit()
     return redirect('/agregar3')
 
+#Mostrar.
 @app.route("/mostrar")
 def mostrar():
     if not 'login' in session:
@@ -124,7 +131,7 @@ def mostrar():
     conn.commit()
     return render_template('sitio/Productos.html',productos=productos)
 
-
+#Mostrar carro.
 @app.route("/mostcarr")
 def mostcarr():
     if not 'login' in session:
@@ -146,7 +153,7 @@ def mostcarr():
     conn1.commit()
     return render_template('sitio/carrito.html',carrito=carrito,suma_total=suma_total)
 
-
+#Agregar 1.
 @app.route("/agregar")
 def agre():
     if not 'login' in session:
@@ -161,6 +168,7 @@ def agre():
     conn.commit()
     return render_template('admin/masprodad.html',productos=productos)
 
+#Agregar 2.
 @app.route("/agregar2")
 def agre2():
     if not 'login' in session:
@@ -175,6 +183,7 @@ def agre2():
     conn.commit()
     return render_template('admin/mclientes.html',productos=productos)
 
+#Agregar 3.
 @app.route("/agregar3")
 def agre3():
     if not 'login' in session:
@@ -189,6 +198,7 @@ def agre3():
     conn.commit()
     return render_template('admin/mtrabajador.html',productos=productos)
 
+#Ruta clientes.
 @app.route("/cliente")
 def clientes():
 
@@ -205,6 +215,7 @@ def clientes():
     conn.commit()
     return render_template('admin/mclientes.html',productos=productos)
 
+#Ruta tickets.
 @app.route("/ticket")
 def ticket():
 
@@ -221,6 +232,7 @@ def ticket():
     conn.commit()
     return render_template('admin/mtick.html',productos=productos)
 
+#Ruta trabajadores.
 @app.route("/trabajadores")
 def trabajadores():
 
@@ -237,6 +249,7 @@ def trabajadores():
     conn.commit()
     return render_template('admin/mtrabajador.html',productos=productos)
 
+#Eliminar productos.
 @app.route('/destroy/<int:id>')
 def destroy(id):
     if not 'login' in session:
@@ -250,7 +263,7 @@ def destroy(id):
     conn.commit()
     return redirect('/agregar')
 
-
+#Eliminar cliente.
 @app.route('/destroyClient/<int:id>')
 def destroyClient(id):
     if not 'login' in session:
@@ -264,6 +277,21 @@ def destroyClient(id):
     conn.commit()
     return redirect('/cliente')
 
+#Eliminar empleado.
+@app.route('/destroyemple/<int:id>')
+def destroyemple(id):
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
+        return redirect('/admin')
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute("DELETE FROM trabajador WHERE id=%s",(id))
+    productos=cursor.fetchall()
+    conn.commit()
+    return redirect('/trabajadores')
+
+#Editar productos.
 @app.route('/edid/<int:id>')
 def edid(id):
     if not 'login' in session:
@@ -291,6 +319,21 @@ def edidc(id):
     conn.commit()
     return render_template('invet/edidc.html',productos=productos)
 
+#Editar trabajador
+@app.route('/edide/<int:id>')
+def edide(id):
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
+        return redirect('/admin')
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute("SELECT * FROM trabajador WHERE id=%s",(id))
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('invet/edide.html',productos=productos)
+
+#Accion 1.
 @app.route("/act", methods=['POST'])
 def act():
     if not 'login' in session:
@@ -317,6 +360,7 @@ def act():
     conn.commit()
     return redirect('/agregar')
 
+#Accion 2.
 @app.route("/act2", methods=['POST'])
 def act2():
     if not 'login' in session:
@@ -337,6 +381,7 @@ def act2():
     cursor.execute(sql,datos)
     conn.commit()
     return redirect('/productoad')
+
 #Actualizar clientes.
 @app.route("/act3", methods=['POST'])
 def act3():
@@ -363,6 +408,33 @@ def act3():
     conn.commit()
     return redirect('/cliente')
 
+#Editar empleado.
+@app.route("/act4", methods=['POST'])
+def act4():
+    if not 'login' in session:
+        return redirect('/')
+    
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
+        return redirect('/')
+    id=request.form['id']
+    _nom=request.form['nombre']
+    _prev=request.form['horario']
+    _sala=request.form['salario']
+    _prec=request.form['usuario']
+    _exi=request.form['correo']
+    _rest=request.form['contra']
+    #_img=request.files['imagen']
+
+    #if _img.filename != '':
+    #    _img.save(f"reTIEN\{_img.filename}")
+    sql="UPDATE trabajador SET `nombre`=%s, `horario`=%s, `salario`=%s, `usuario`=%s, `correo`=%s, `contra`=%s WHERE id=%s ;"
+    datos=(_nom,_prev,_sala,_prec,_exi,_rest,id)
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql,datos)
+    conn.commit()
+    return redirect('/trabajadores')
+
 # Ruta de inicio de seccion correcto como admin
 @app.route("/Loginadmin")
 def Loginadmin():
@@ -371,7 +443,8 @@ def Loginadmin():
     if 'login' in session and session.get('rango') == 'cliente':
         return redirect('/mostrar')
     return render_template('admin/loginadmin.html')
-     
+
+#Inicio de sesión.  
 @app.route("/Loginadmin", methods=['POST'])
 def ad_log():
     _corr = request.form['txtcorreo']

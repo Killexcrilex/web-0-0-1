@@ -10,22 +10,26 @@
     <div class="cont">
         {% for producto in productos %}
         {% if session["edad"] >= producto[5]  %}
-                <div class="per">
-                    <div class="prod">
-                        <img class="rounded-circle" id="pr" src="{{ url_for('reTIEN', nombreFoto1=producto[6] )}}" width="200" height="200" alt="..." />
-                        <h5>{{ producto[1] }}</h5>
-                        <h5>${{ producto[3] }}</h5>
-                    </div>
+        <div class="per">
+            <div class="prod">
+                <form action="/agregacarrito" method="POST">
+                    <input type="hidden" name="producto" value="{{ producto[1] }}">
+                    <input type="hidden" name="precio" value="{{ producto[3] }}">
+                    <img class="rounded-circle" id="pr" src="{{ url_for('reTIEN', nombreFoto1=producto[6] )}}" width="200" height="200" alt="..." />
+                    <h5>{{ producto[1] }}</h5>
+                    <h5>${{ producto[3] }}</h5>
+                    <button type="submit" class="btn btn-primary">Añadir al carrito</button>
                     <div class="prod input-group mb-3">
-                        <a name="" id="" class="btn btn-danger btn-success" href="#" role="button" onclick="decrementarValor(this.nextElementSibling)">Quitar</a>
-                        <input type="number" min="0" class="c form-control" placeholder="" aria-label="Texto de ejemplo con complementos de dos botones" value="0">
-                        <a name="" id="" class="btn btn-success" href="#" role="button" onclick="incrementarValor(this.previousElementSibling)">Agregar</a>
-                    </div>
-                    <div id="a1">
-                        <a name="" id="" class="btn btn-primary" href="#" role="button" onclick="agregarAlCarrito('{{ producto[1] }}', '{{ producto[3] }}', this.previousElementSibling.previousElementSibling.value)" >Añadir al carrito</a>
-                    <br>
-                    </div>
-                </div>
+
+                <a name="" id="" class="btn btn-danger btn-success" href="#" role="button" onclick="decrementarValor(this.nextElementSibling)">Quitar</a>
+                <input type="number" min="0" class="c form-control" name="cantidad" placeholder="" aria-label="Texto de ejemplo con complementos de dos botones" >
+                <a name="" id="" class="btn btn-success" href="#" role="button" onclick="incrementarValor(this.previousElementSibling)">Agregar</a>
+            </div>
+                </form>
+            </div>
+            
+            
+        </div>
             {% endif %}
         {% endfor %}
     </div>

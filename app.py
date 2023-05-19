@@ -56,7 +56,7 @@ def agrepro():
         _img.save(f"reTIEN\{_img.filename}")
         
     query = "INSERT INTO productos (codigo, Nombre, preciodecompra, preciodeventa, existencia, restriccion,imagen) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-    values = (codigo, nombre, precio_compra, precio_venta, existencias, restriccion,_img)
+    values = (codigo, nombre, precio_compra, precio_venta, existencias, restriccion,_img.filename)
     
     conn=mysql.connect()
     cursor=conn.cursor()
@@ -240,6 +240,25 @@ def act2():
     cursor.execute(sql,datos)
     conn.commit()
     return redirect('/productoad')
+
+@app.route('/agregacarrito', methods=['POST'])
+def agregar_al_carrito():
+     
+     producto = request.form.get('producto')
+     precio = request.form.get('precio')
+     cantidad = request.form.get('cantidad')
+     correo = session.get('correo')
+     total = int(precio) * int(cantidad)
+     conn=mysql.connect()
+     cursor=conn.cursor()
+     
+     sql = "INSERT INTO carrito (Producto, Precio, Cantidad, Total, Correo) VALUES (%s, %s, %s, %s, %s)"
+     values = (producto, precio, cantidad, total, correo)
+     cursor.execute(sql, values)
+     conn.commit()
+     cursor.close()
+     return "Producto agregado al carrito"
+
 
 # Ruta de inicio de seccion correcto como admin
 @app.route("/Loginadmin")

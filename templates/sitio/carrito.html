@@ -1,4 +1,7 @@
-{% include 'sitio/cabecera.html' %}
+<link rel="stylesheet" href="{{url_for('static',filename='cs/pro.css')}}">
+    {% include 'sitio/cabecera.html' %}
+    <script src="{{ url_for('static', filename='js/j.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 <div class="col-8">
@@ -17,6 +20,8 @@
                                             <th>Precio</th>
                                             <th>Cantidad</th>
                                             <th>Total</th>
+                                            <th></th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -27,6 +32,7 @@
                                             <td>{{carro[2] }}</td>
                                             <td>{{carro[3] }}</td>
                                             <td>{{carro[4] }}</td>
+                                            <td><a type="button" class="btn btn-danger" href="/destroycarro/{{carro[1]}}">Eliminar</a></td>
                                            
                                         </tr>
 
@@ -35,6 +41,7 @@
                                         
                                         
                                     </tbody>
+                                    
                                       </table>
                                       <h5>Total a Pagar $</h5>
                                       <h4>{{ suma_total }}</h4>
@@ -42,8 +49,7 @@
                         </div>
                     </div>
                     <br>
-                    <button type="button" class="btn btn-outline-success">Generar Ticket</button>
-                             
+                    <button type="button" class="btn btn-outline-success" onclick="generarTicket()">Generar Ticket</button>         
                 </div>
             </div>
 

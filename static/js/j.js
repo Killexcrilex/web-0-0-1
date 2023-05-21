@@ -51,3 +51,18 @@ function incrementarValor(input) {
 
     console.log(carrito); // Muestra el objeto carrito en la consola para fines de demostración
 }
+
+
+function generarTicket() {
+  $.ajax({
+    url: '/guardar-ticket', // Ruta del servidor que genera el ticket
+    type: 'GET',
+    success: function(response) {
+      console.log('Ticket generado correctamente');
+      // Aquí puedes realizar cualquier otra acción después de generar el ticket
+    },
+    error: function(error) {
+      console.error('Error al generar el ticket:', error);
+    }
+  });
+}

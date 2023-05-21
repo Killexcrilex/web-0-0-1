@@ -1,6 +1,7 @@
 from flask import Flask
-from flask import render_template,request, redirect,url_for,session, flash
+from flask import render_template,request, redirect,url_for,session, flash, make_response
 from flaskext.mysql import MySQL
+import pdfkit
 from flask import send_from_directory
 from datetime import datetime
 import os
@@ -153,23 +154,70 @@ def mostcarr():
     conn1.commit()
     return render_template('sitio/carrito.html',carrito=carrito,suma_total=suma_total)
 
+
+@app.route('/destroycarro/<nombre>')
+def destroycarro(nombre):
+    
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute("DELETE FROM carrito WHERE Producto=%s", (nombre,))
+    productos=cursor.fetchall()
+    conn.commit()
+    return redirect('/mostcarr')
+
+
 @app.route('/agregacarrito', methods=['POST'])
 def agregar_al_carrito():
+      producto = request.form.get('producto')
+      precio = request.form.get('precio')
+      cantidad = request.form.get('cantidad')
+      correo = session.get('correo')
+      total = int(precio) * int(cantidad)
+      conn=mysql.connect()
+      cursor=conn.cursor()
+      sql = "INSERT INTO carrito (Producto, Precio, Cantidad, Total, Correo) VALUES (%s, %s, %s, %s, %s)"
+      values = (producto, precio, cantidad, total, correo)
+      cursor.execute(sql, values)
+      conn.commit()
+      cursor.close()
+      return redirect('/mostcarr')
 
-     producto = request.form.get('producto')
-     precio = request.form.get('precio')
-     cantidad = request.form.get('cantidad')
-     correo = session.get('correo')
-     total = int(precio) * int(cantidad)
-     conn=mysql.connect()
-     cursor=conn.cursor()
 
-     sql = "INSERT INTO carrito (Producto, Precio, Cantidad, Total, Correo) VALUES (%s, %s, %s, %s, %s)"
-     values = (producto, precio, cantidad, total, correo)
-     cursor.execute(sql, values)
-     conn.commit()
-     cursor.close()
-     return "Producto agregado al carrito"
+@app.route('/guardar-ticket', methods=['GET'])
+def guardar_en_ticket():
+    carrito = [
+        ["Producto 1", "Descripción 1", "Precio 1", "Cantidad 1"],
+        ["Producto 2", "Descripción 2", "Precio 2", "Cantidad 2"],
+        ["Producto 3", "Descripción 3", "Precio 3", "Cantidad 3"]
+    ]
+    
+    with open('ticket.txt', 'w') as archivo:
+        archivo.write("<tr>\n")
+        archivo.write("\t<th>Producto</th>\n")
+        archivo.write("\t<th>Precio</th>\n")
+        archivo.write("\t<th>Cantidad</th>\n")
+        archivo.write("\t<th>Total</th>\n")
+        archivo.write("</tr>\n")
+
+        for carro in carrito:
+            if len(carro) >= 5:  # Verificar que haya al menos 5 elementos en la sublista
+                archivo.write("<tr>\n")
+                archivo.write(f"\t<td>{carro[0]}</td>\n")  # Usar índice 0 para el producto
+                archivo.write(f"\t<td>{carro[2]}</td>\n")  # Usar índice 2 para el precio
+                archivo.write(f"\t<td>{carro[3]}</td>\n")  # Usar índice 3 para la cantidad
+                archivo.write(f"\t<td>{carro[1]}</td>\n")  # Usar índice 1 para el total
+                archivo.write("</tr>\n")
+            else:
+                # Manejar el caso en el que la sublista no tenga suficientes elementos
+                archivo.write("<tr>\n")
+                archivo.write("\t<td colspan='4'>Datos incompletos</td>\n")
+                archivo.write("</tr>\n")
+
+        archivo.write("<h5>Total a Pagar $</h5>\n")
+        archivo.write("<h4>{{ suma_total }}</h4>")
+
+    return redirect('/mostcarr')
+
 
 #Agregar 1.
 @app.route("/agregar")
@@ -280,6 +328,7 @@ def destroy(id):
     productos=cursor.fetchall()
     conn.commit()
     return redirect('/agregar')
+
 
 #Eliminar cliente.
 @app.route('/destroyClient/<int:id>')

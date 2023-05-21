@@ -3,62 +3,49 @@
     <script src="{{ url_for('static', filename='js/j.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
-<div class="col-8">
-    <div class="card">
-         <div class="card-header">
-           <h3>Carrito de compra</h3>
-         </div>
-         <div class="card-body">
-
-            <div class="container">
-                <div class="row">
-                                <table class="table table-light" >
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>Producto</th>
-                                            <th>Precio</th>
-                                            <th>Cantidad</th>
-                                            <th>Total</th>
-                                            <th></th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for carro in carrito %}
-                                        
-                                        <tr>
-                                            <td>{{carro[1] }}</td>
-                                            <td>{{carro[2] }}</td>
-                                            <td>{{carro[3] }}</td>
-                                            <td>{{carro[4] }}</td>
-                                            <td><a type="button" class="btn btn-danger" href="/destroycarro/{{carro[1]}}">Eliminar</a></td>
-                                           
-                                        </tr>
-
-                                       
-                                        {% endfor %}
-                                        
-                                        
-                                    </tbody>
-                                    
-                                      </table>
-                                      <h5>Total a Pagar $</h5>
-                                      <h4>{{ suma_total }}</h4>
-                               
-                        </div>
+<br>
+<div class="text-center">
+    <div class="col-8 mx-auto">
+        <div class="card text-bg-dark">
+            <div class="card-header">
+                <h3>Carrito de compra</h3>
+            </div>
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <table class="table table-dark">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for carro in carrito %}
+                                <tr>
+                                    <td>{{ carro[1] }}</td>
+                                    <td>{{ carro[2] }}</td>
+                                    <td>{{ carro[3] }}</td>
+                                    <td>{{ carro[4] }}</td>
+                                    <td><a type="button" class="btn btn-danger" href="/destroycarro/{{ carro[1] }}">Eliminar</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <h5>Total a Pagar</h5>
+                        <h4>${{ suma_total }}</h4>
                     </div>
                     <br>
-                    <button type="button" class="btn btn-outline-success" onclick="generarTicket()">Generar Ticket</button>         
+                    <button type="button" class="btn btn-outline-success" onclick="generarTicket()">Generar Ticket</button>
                 </div>
             </div>
-
-         </div>
-     </div>
- </div>
-
+        </div>
+    </div>
 </div>
-</div>
-
+<br>
+<br>
 
 {% include 'sitio/pie.html' %}

@@ -1,7 +1,6 @@
 from flask import Flask
 from flask import render_template,request, redirect,url_for,session, flash, make_response
 from flaskext.mysql import MySQL
-import pdfkit
 from flask import send_from_directory
 from datetime import datetime
 import os
@@ -135,24 +134,39 @@ def mostrar():
 #Mostrar carro.
 @app.route("/mostcarr")
 def mostcarr():
-    if not 'login' in session:
+    if 'login' not in session:
         return redirect('/')
 
-    sql="SELECT * FROM `carrito` WHERE Correo=%s;"
-    conn=mysql.connect()
-    cursor=conn.cursor()
-    cursor.execute(sql, session["correo"])
-    carrito=cursor.fetchall()
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    
+    # Obtener los productos en el carrito del usuario actual
+    sql = "SELECT * FROM `carrito` WHERE Correo = %s;"
+    cursor.execute(sql, (session["correo"],))
+    carrito = cursor.fetchall()
+    
+    # Calcular la suma total de los precios actualizados
+    suma_total = 0
+    for item in carrito:
+        producto = item[1]
+        cantidad = item[3]
+        
+        # Obtener el precio actual del producto desde la tabla "productos"
+        sql_precio = "SELECT preciodeventa FROM `productos` WHERE Nombre = %s;"
+        cursor.execute(sql_precio, (producto,))
+        precio_actual = cursor.fetchone()[0]
+        
+        # Actualizar el precio en el registro del carrito
+        nuevo_total = int(precio_actual) * int(cantidad)
+        sql_update_precio = "UPDATE `carrito` SET Precio = %s, Total = %s WHERE Producto = %s AND Correo = %s;"
+        cursor.execute(sql_update_precio, (precio_actual, nuevo_total, producto, session["correo"]))
+        
+        # Sumar al total
+        suma_total += nuevo_total
+    
     conn.commit()
-    sql1="SELECT SUM(Total) FROM `carrito` WHERE Correo=%s"
-    conn1=mysql.connect()
-    cursor1=conn1.cursor()
-    cursor1.execute(sql1, session["correo"])
-    resultado = cursor1.fetchone()
-    suma_total = resultado[0] if resultado[0] else 0
-
-    conn1.commit()
-    return render_template('sitio/carrito.html',carrito=carrito,suma_total=suma_total)
+    
+    return render_template('sitio/carrito.html', carrito=carrito, suma_total=suma_total)
 
 
 @app.route('/destroycarro/<nombre>')
@@ -168,20 +182,44 @@ def destroycarro(nombre):
 
 @app.route('/agregacarrito', methods=['POST'])
 def agregar_al_carrito():
-      producto = request.form.get('producto')
-      precio = request.form.get('precio')
-      cantidad = request.form.get('cantidad')
-      correo = session.get('correo')
-      total = int(precio) * int(cantidad)
-      conn=mysql.connect()
-      cursor=conn.cursor()
-      sql = "INSERT INTO carrito (Producto, Precio, Cantidad, Total, Correo) VALUES (%s, %s, %s, %s, %s)"
-      values = (producto, precio, cantidad, total, correo)
-      cursor.execute(sql, values)
-      conn.commit()
-      cursor.close()
-      return redirect('/mostcarr')
+    producto = request.form.get('producto')
+    correo = session.get('correo')
+    
+    # Obtener el precio actual del producto
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql_select_precio = "SELECT preciodeventa FROM productos WHERE Nombre = %s"
+    cursor.execute(sql_select_precio, (producto))
+    result = cursor.fetchone()
+    if result:
+        precio = result[0]
+        cantidad = request.form.get('cantidad')
+        total = int(precio) * int(cantidad)
 
+        # Verificar si hay datos para el producto y correo especificados
+        sql_select = "SELECT * FROM carrito WHERE Producto = %s AND Correo = %s"
+        select_values = (producto, correo)
+        cursor.execute(sql_select, select_values)
+        result = cursor.fetchone()
+        if result:
+            # Actualizar la cantidad del registro existente
+            cantidad_actual = int(result[3])
+            nueva_cantidad = cantidad_actual + int(cantidad)
+            nuevo_total = int(precio) * nueva_cantidad
+        
+            sql_update = "UPDATE carrito SET Precio=%s, Cantidad = %s, Total = %s WHERE Producto = %s AND Correo = %s"
+            update_values = (precio,nueva_cantidad, nuevo_total, producto, correo)
+            cursor.execute(sql_update, update_values)
+            conn.commit()
+        else:
+            # Agregar un nuevo registro
+            sql_insert = "INSERT INTO carrito (Producto, Precio, Cantidad, Total, Correo) VALUES (%s, %s, %s, %s, %s)"
+            insert_values = (producto, precio, cantidad, total, correo)
+            cursor.execute(sql_insert, insert_values)
+            conn.commit()
+        
+    cursor.close()
+    return redirect('/mostcarr')
 
 @app.route('/guardar-ticket', methods=['GET'])
 def guardar_en_ticket():

@@ -15,7 +15,7 @@
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>Archivo</th>
-                                                    <th>Numero</th>
+                                                    <th>Usuario</th>
                                                     <th>Caducidad</th>
                                                     <th>Estado</th>
                                                     <th>Acciones</th>
@@ -32,7 +32,9 @@
                                                     <td>{{producto[4] }}</td>
                                                     <td>
                                                         {% if session['rango']!="cliente" %}
-                                                            <a type="button" class="btn btn-warning" href="/#/{{producto[0]}}">Editar</a> 
+                                                            <a type="button" class="btn btn-warning" href="/#/{{producto[0]}}">Editar</a>
+                                                            <a>|</a> 
+                                                            <a type="button" class="btn btn-success" href="/mostrar_ticket/{{producto[0]}}">Ver</a>
                                                             {% if session['rango']=="admin" %}
                                                             <a>|</a>
                                                             <a type="button" class="btn btn-danger" href="/#/{{producto[0]}}">Eliminar</a>

@@ -1,0 +1,4 @@
+Producto            Precio    Cantidad  Total     
+Pepsi 600ml         18        5         90        
+
+Total a Pagar       $90.00     

@@ -349,6 +349,30 @@ def generatickete():
     cursor.execute(consulta_eliminar, valores_eliminar)
     conn.commit()
 
+    # Guardar el archivo en el servidor
+    archivo_nombre = "ticket.txt"
+    archivo_ruta = os.path.join(app.root_path, "archivos", archivo_nombre)
+    with open(archivo_ruta, "w") as archivo:
+        archivo.write(contenido)
+
+   
+
+    # Leer el contenido del archivo
+    with open(archivo_ruta, "r") as archivo:
+        contenido_archivo = archivo.read()
+        
+        
+    correoticket = session["correo"]
+    usuarioticket = session["usuario"]
+    consulta_insertar = "INSERT INTO ticket (archivo, usuario, caducidad, estado,correo) VALUES (%s, %s, %s, %s, %s)"
+    valores_insertar = (contenido_archivo, usuarioticket, "2023-12-31", "Activo",correoticket)
+     # Guardar el archivo en una tabla de MySQL
+    conn=mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute(consulta_insertar, valores_insertar)
+    conn.commit()
+
+
     # Crear la respuesta con el archivo de texto
     response = make_response(contenido)
     response.headers["Content-Disposition"] = "attachment; filename=ticket.txt"
@@ -356,7 +380,14 @@ def generatickete():
 
     return response
 
+@app.route('/mostrar_ticket/<int:id>')
+def mostrar_ticket(id):
 
+    conn=mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT archivo FROM ticket WHERE id = %s",(id))
+    resultado = cursor.fetchone()
+    return render_template('sitio/tabla.html', contenido=resultado[0] if resultado else None)
 
 #Agregar 1.
 @app.route("/agregar")

@@ -314,40 +314,48 @@ def agregar_al_carrito():
     cursor.close()
     return redirect('/mostcarr')
 
-@app.route('/guardar-ticket', methods=['GET'])
-def guardar_en_ticket():
-    carrito = [
-        ["Producto 1", "Descripción 1", "Precio 1", "Cantidad 1"],
-        ["Producto 2", "Descripción 2", "Precio 2", "Cantidad 2"],
-        ["Producto 3", "Descripción 3", "Precio 3", "Cantidad 3"]
-    ]
-    
-    with open('ticket.txt', 'w') as archivo:
-        archivo.write("<tr>\n")
-        archivo.write("\t<th>Producto</th>\n")
-        archivo.write("\t<th>Precio</th>\n")
-        archivo.write("\t<th>Cantidad</th>\n")
-        archivo.write("\t<th>Total</th>\n")
-        archivo.write("</tr>\n")
+@app.route('/generatickete', methods=['POST'])
+def generatickete():
+    productos = request.form.getlist('producto')
+    precios = request.form.getlist('precio')
+    cantidades = request.form.getlist('cantidad')
+    totales = request.form.getlist('total')
 
-        for carro in carrito:
-            if len(carro) >= 5:  # Verificar que haya al menos 5 elementos en la sublista
-                archivo.write("<tr>\n")
-                archivo.write(f"\t<td>{carro[0]}</td>\n")  # Usar índice 0 para el producto
-                archivo.write(f"\t<td>{carro[2]}</td>\n")  # Usar índice 2 para el precio
-                archivo.write(f"\t<td>{carro[3]}</td>\n")  # Usar índice 3 para la cantidad
-                archivo.write(f"\t<td>{carro[1]}</td>\n")  # Usar índice 1 para el total
-                archivo.write("</tr>\n")
-            else:
-                # Manejar el caso en el que la sublista no tenga suficientes elementos
-                archivo.write("<tr>\n")
-                archivo.write("\t<td colspan='4'>Datos incompletos</td>\n")
-                archivo.write("</tr>\n")
+    # Crear el contenido del archivo de texto
+    contenido = "{:<20s}{:<10s}{:<10s}{:<10s}\n".format("Producto", "Precio", "Cantidad", "Total")
+    for i in range(len(productos)):
+        contenido += "{:<20s}{:<10s}{:<10s}{:<10s}\n".format(productos[i], precios[i], cantidades[i], totales[i])
 
-        archivo.write("<h5>Total a Pagar $</h5>\n")
-        archivo.write("<h4>{{ suma_total }}</h4>")
+    # Agregar el total a pagar al final
+    suma_total = sum(float(total) for total in totales)
+    contenido += "\n{:<20s}${:<10.2f}".format("Total a Pagar", suma_total)
 
-    return redirect('/mostcarr')
+    for i in range(len(cantidades)):
+        producto = productos[i]
+        cantidad = int(cantidades[i])
+
+        consulta = "UPDATE productos SET existencia = existencia - %s WHERE Nombre = %s"
+        valores = (cantidad, producto)
+        conn=mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(consulta, valores)
+        conn.commit()
+
+    correo_buscar = session["correo"]
+    consulta_eliminar = "DELETE FROM carrito WHERE correo = %s"
+    valores_eliminar = (correo_buscar,)
+    conn=mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute(consulta_eliminar, valores_eliminar)
+    conn.commit()
+
+    # Crear la respuesta con el archivo de texto
+    response = make_response(contenido)
+    response.headers["Content-Disposition"] = "attachment; filename=ticket.txt"
+    response.headers["Content-type"] = "text/plain"
+
+    return response
+
 
 
 #Agregar 1.

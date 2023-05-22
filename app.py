@@ -187,15 +187,13 @@ def agretra():
     if result:
         # Generar una nueva ID que no esté presente en la base de datos
         new_id = None
-        while not new_id:
-            new_id = random.randint(1, 99999999999)  # Generar un número de 4 dígitos
-            cursor.execute(query_check_id, (new_id,))
-            result = cursor.fetchone()
-            if result:
-                new_id = None
-        
-        # Utilizar la nueva ID generada
-        codigo = new_id
+        while True:
+            new_id = random.randint(1, 99999999999)
+            cursor.execute(query_check_id, (new_id))
+            count_nueva_id = cursor.fetchone()[0]
+            if count_nueva_id == 0:
+                codigo = new_id  # Asignar la nueva ID única
+                break
 
     # Verificar si el correo ya existe en la base de datos
     query_check_correo = "SELECT * FROM trabajador WHERE correo = %s"
@@ -541,23 +539,29 @@ def act():
     
     if session["rango"]=="cliente" or session["rango"]=="empleado":
         return redirect('/')
-    id=request.form['Codigo']
-    _nom=request.form['Nombre']
-    _prev=request.form['preciodecompra']
-    _prec=request.form['preciodeventa']
-    _exi=request.form['existencia']
-    _rest=request.form['restriccion']
-    _img=request.files['imagen']
-
+    
+    id = request.form['Codigo']
+    _nom = request.form['Nombre']
+    _prev = request.form['preciodecompra']
+    _prec = request.form['preciodeventa']
+    _exi = request.form['existencia']
+    _rest = request.form['restriccion']
+    _img = request.files['imagen']
+    
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    
     if _img.filename != '':
         _img.save(f"reTIEN\{_img.filename}")
-        
-    sql="UPDATE productos SET `Nombre`=%s, `preciodecompra`=%s, `preciodeventa`=%s, `existencia`=%s, `restriccion`=%s,`imagen`=%s WHERE codigo=%s ;"
-    datos=(_nom,_prev,_prec,_exi,_rest,_img.filename,id)
-    conn=mysql.connect()
-    cursor=conn.cursor()
-    cursor.execute(sql,datos)
+        sql = "UPDATE productos SET `Nombre`=%s, `preciodecompra`=%s, `preciodeventa`=%s, `existencia`=%s, `restriccion`=%s, `imagen`=%s WHERE codigo=%s ;"
+        datos = (_nom, _prev, _prec, _exi, _rest, _img.filename, id)
+    else:
+        sql = "UPDATE productos SET `Nombre`=%s, `preciodecompra`=%s, `preciodeventa`=%s, `existencia`=%s, `restriccion`=%s WHERE codigo=%s ;"
+        datos = (_nom, _prev, _prec, _exi, _rest, id)
+    
+    cursor.execute(sql, datos)
     conn.commit()
+    
     return redirect('/agregar')
 
 #Accion 2.

@@ -3,6 +3,7 @@ from flask import render_template,request, redirect,url_for,session, flash, make
 from flaskext.mysql import MySQL
 from flask import send_from_directory
 from datetime import datetime
+import random
 import os
 
 app=Flask(__name__)
@@ -48,33 +49,81 @@ def agrepro():
         return redirect('/')
     if session["rango"]=="cliente":
         return redirect('/')
+    
     codigo = request.form['Codigo']
     nombre = request.form['Nombre']
     precio_compra = request.form['Prec']
     precio_venta = request.form['Prev']
     existencias = request.form['Existen']
     restriccion = request.form['Rest']
-    _img=request.files['imagen']
-
+    _img = request.files['imagen']
+    
+    if codigo == '' or nombre == '' or precio_compra == '0' or precio_venta == '0' or existencias == '0':
+        return redirect('/agregar')  # Redireccionar si hay campos vacíos o valores de 0
+    
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    
+    # Verificar si el código ya existe en la base de datos
+    query_select = "SELECT * FROM productos WHERE codigo = %s"
+    select_values = (codigo,)
+    cursor.execute(query_select, select_values)
+    result = cursor.fetchone()
+    
+    if result:
+        # Generar un nuevo código que no esté en la base de datos
+        new_codigo = random.randint(1, 99999999999)
+        while check_codigo_exist(new_codigo):
+            new_codigo =random.randint(1, 99999999999)
+        
+        codigo = new_codigo
+    
+    # Verificar si el nombre ya existe en la base de datos
+    query_select = "SELECT * FROM productos WHERE Nombre = %s"
+    select_values = (nombre,)
+    cursor.execute(query_select, select_values)
+    result = cursor.fetchone()
+    
+    if result:
+        return redirect('/agregar')  # Redireccionar si el nombre ya existe
+    
     if _img.filename != '':
         _img.save(f"reTIEN\{_img.filename}")
         
-    query = "INSERT INTO productos (codigo, Nombre, preciodecompra, preciodeventa, existencia, restriccion,imagen) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-    values = (codigo, nombre, precio_compra, precio_venta, existencias, restriccion,_img)
+    query_insert = "INSERT INTO productos (codigo, Nombre, preciodecompra, preciodeventa, existencia, restriccion, imagen) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+    insert_values = (codigo, nombre, precio_compra, precio_venta, existencias, restriccion, _img.filename)
     
-    conn=mysql.connect()
-    cursor=conn.cursor()
-    cursor.execute(query, values)
+    cursor.execute(query_insert, insert_values)
     conn.commit()
-    return redirect('/agregar')
+    
+    return redirect('/agregar')  # Redireccionar a la página de agregar después de realizar la inserción
+
+
+
+def check_codigo_exist(codigo):
+    # Verificar si el código ya existe en la base de datos
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    
+    query_select = "SELECT * FROM productos WHERE codigo = %s"
+    select_values = (codigo,)
+    cursor.execute(query_select, select_values)
+    result = cursor.fetchone()
+    
+    if result:
+        return True  # El código existe
+    else:
+        return False  # El código no existe
+
 
 #Agregar cliente.
 @app.route("/agreclie", methods=['POST'])
 def agreclie():
     if not 'login' in session:
         return redirect('/')
-    if session["rango"]=="cliente":
+    if session["rango"] == "cliente":
         return redirect('/')
+
     codigo = request.form['Codigo']
     nombre = request.form['Nombre']
     edad = request.form['Prec']
@@ -82,14 +131,36 @@ def agreclie():
     Email = request.form['Existen']
     Contraseña = request.form['Rest']
 
-        
-    query = "INSERT INTO clientes (id, nombre, edad, usuario, correo, contra) VALUES (%s, %s, %s, %s, %s, %s)"
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    # Verificar si la ID ya existe
+    query_id_exists = "SELECT COUNT(*) FROM clientes WHERE id = %s"
+    cursor.execute(query_id_exists, (codigo,))
+    count_id = cursor.fetchone()[0]
+    if count_id > 0:
+        # La ID ya existe, generar una nueva ID única
+        while True:
+            nueva_codigo = random.randint(1, 99999999999)
+            cursor.execute(query_id_exists, (nueva_codigo,))
+            count_nueva_id = cursor.fetchone()[0]
+            if count_nueva_id == 0:
+                codigo = nueva_codigo  # Asignar la nueva ID única
+                break
+
+    # Verificar si el correo electrónico ya existe
+    query_email_exists = "SELECT COUNT(*) FROM clientes WHERE correo = %s"
+    cursor.execute(query_email_exists, (Email,))
+    count_email = cursor.fetchone()[0]
+    if count_email > 0:
+        return redirect('/agregar2')  # El correo electrónico ya existe, no insertar en la base de datos
+
+    # Insertar el nuevo cliente en la base de datos
+    query_insert = "INSERT INTO clientes (id, nombre, edad, usuario, correo, contra) VALUES (%s, %s, %s, %s, %s, %s)"
     values = (codigo, nombre, edad, Nombreusuario, Email, Contraseña)
-    
-    conn=mysql.connect()
-    cursor=conn.cursor()
-    cursor.execute(query, values)
+    cursor.execute(query_insert, values)
     conn.commit()
+
     return redirect('/agregar2')
 
 #Agregar trabajador.
@@ -97,8 +168,9 @@ def agreclie():
 def agretra():
     if not 'login' in session:
         return redirect('/')
-    if session["rango"]=="cliente":
+    if session["rango"] == "cliente":
         return redirect('/')
+    
     codigo = request.form['Codigo']
     nombre = request.form['Nombre']
     Horario = request.form['Prec']
@@ -106,15 +178,38 @@ def agretra():
     Usuario = request.form['Existen']
     Correo = request.form['Rest']
     Contraseña = request.form['Contra']
-
+    
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    query_check_id = "SELECT * FROM trabajador WHERE id = %s"
+    cursor.execute(query_check_id, (codigo,))
+    result = cursor.fetchone()
+    if result:
+        # Generar una nueva ID que no esté presente en la base de datos
+        new_id = None
+        while not new_id:
+            new_id = random.randint(1, 99999999999)  # Generar un número de 4 dígitos
+            cursor.execute(query_check_id, (new_id,))
+            result = cursor.fetchone()
+            if result:
+                new_id = None
         
-    query = "INSERT INTO trabajador (id, nombre, horario, salario, usuario, correo, contra) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        # Utilizar la nueva ID generada
+        codigo = new_id
+
+    # Verificar si el correo ya existe en la base de datos
+    query_check_correo = "SELECT * FROM trabajador WHERE correo = %s"
+    cursor.execute(query_check_correo, (Correo))
+    result = cursor.fetchone()
+    if result:
+        return redirect('/trabajadores')
+    
+    query_insert = "INSERT INTO trabajador (id, nombre, horario, salario, usuario, correo, contra) VALUES (%s, %s, %s, %s, %s, %s, %s)"
     values = (codigo, nombre, Horario, Salario, Usuario, Correo, Contraseña)
     
-    conn=mysql.connect()
-    cursor=conn.cursor()
-    cursor.execute(query, values)
+    cursor.execute(query_insert, values)
     conn.commit()
+    
     return redirect('/agregar3')
 
 #Mostrar.

@@ -1,0 +1,61 @@
+{% include 'admin/caad.html' %}
+<br>
+<div class="col-6 mx-auto">
+  <div class="card text-center text-bg-dark">
+      <div class="card-header">
+          Editar ticket
+      </div>
+      <div class="card-body">
+             <form 
+             
+             {% if session[ 'rango' ]=="admin" %}
+               
+             action="/act5"
+
+             {% endif %}
+             {% if session[ 'rango' ]==0 %}
+               
+             action="/act2"
+
+             {% endif %}
+             
+             method="post" enctype="multipart/form-data">
+                {% for producto in productos %}
+                 <div class="mb-3">
+                   <label for="ID" class="form-label">ID</label>
+                   <input type="number"  value="{{ producto[0] }}"
+                     class="form-control"  readonly=»readonly»  name="id" id="CD" aria-describedby="helpId" placeholder="ID del ticket" maxlength="11" readonly>
+                 </div>
+                 <div class="mb-3">
+                     <label for="archivo" class="form-label">Archivo</label>
+                     <input type="text"  value="{{ producto[1] }}"
+                       class="form-control" name="archivo" id="NOM" aria-describedby="helpId" placeholder="Nombre del archivo" maxlength="50" readonly>
+                   </div>
+                   <div class="mb-3">
+                     <label for="usuario" class="form-label">Usuario</label>
+                     <input type="text"  value="{{ producto[2] }}"
+                       class="form-control" name="usuario" id="Prec" aria-describedby="helpId" placeholder="Nombre del usuario" min="0" maxlength="11" readonly>
+                   </div>
+                   <div class="mb-3">
+                    <label for="caducidad" class="form-label">Caducidad</label>
+                    <input type="text"  value="{{ producto[3] }}"
+                      class="form-control" name="caducidad" id="Prev" aria-describedby="helpId" placeholder="Caducidad del ticket"  min="0" maxlength="11" readonly>
+                  </div>
+                  <div class="mb-3">
+                    <label for="estado" class="form-label">Estado</label>
+                    <input type="text"  value="{{ producto[4] }}"
+                      class="form-control" name="estado" id="Exi" aria-describedby="helpId" placeholder="Estado del ticket"  min="0" maxlength="11">
+                  </div>
+                   <div class="mb-3">
+                     <label for="correo" class="form-label">Correo</label>
+                     <input type="email"  value="{{ producto[5] }}"
+                       class="form-control" name="correo" id="Rres" aria-describedby="helpId" placeholder="Correo del usuario"  min="0" maxlength="11" readonly>
+                   </div>
+                   <button type="submit" class="btn btn-success">Guardar</button>
+            {% endfor %}
+             </form>
+
+         </div>
+     </div>
+ </div>
+ {% include 'admin/piead.html' %}

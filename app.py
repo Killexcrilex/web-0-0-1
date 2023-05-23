@@ -356,7 +356,7 @@ def generatickete():
         archivo.write(contenido)
 
    
-
+   
     # Leer el contenido del archivo
     with open(archivo_ruta, "r") as archivo:
         contenido_archivo = archivo.read()
@@ -528,6 +528,21 @@ def destroyemple(id):
     conn.commit()
     return redirect('/trabajadores')
 
+#Eliminar ticket.
+@app.route('/destroyticket/<int:id>')
+def destroyticket(id):
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
+        return redirect('/admin')
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute("DELETE FROM ticket WHERE id=%s",(id))
+    productos=cursor.fetchall()
+    conn.commit()
+    return redirect('/ticket')
+
+
 #Editar productos.
 @app.route('/edid/<int:id>')
 def edid(id):
@@ -569,6 +584,21 @@ def edide(id):
     productos=cursor.fetchall()
     conn.commit()
     return render_template('invet/edide.html',productos=productos)
+
+#Editar trabajador
+@app.route('/edidti/<int:id>')
+def edidti(id):
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
+        return redirect('/admin')
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute("SELECT * FROM ticket WHERE id=%s",(id))
+    productos=cursor.fetchall()
+    conn.commit()
+    return render_template('invet/edidti.html',productos=productos)
+
 
 #Accion 1.
 @app.route("/act", methods=['POST'])
@@ -677,6 +707,32 @@ def act4():
     cursor.execute(sql,datos)
     conn.commit()
     return redirect('/trabajadores')
+
+#Editar ticket.
+@app.route("/act5", methods=['POST'])
+def act5():
+    if not 'login' in session:
+        return redirect('/')
+    
+    if session["rango"]=="cliente" or session["rango"]=="empleado":
+        return redirect('/')
+    id=request.form['id']
+    _nom=request.form['archivo']
+    _prev=request.form['usuario']
+    _sala=request.form['caducidad']
+    _prec=request.form['estado']
+    _exi=request.form['correo']
+    #_img=request.files['imagen']
+
+    #if _img.filename != '':
+    #    _img.save(f"reTIEN\{_img.filename}")
+    sql="UPDATE ticket SET `archivo`=%s, `usuario`=%s, `caducidad`=%s, `estado`=%s, `correo`=%s WHERE id=%s ;"
+    datos=(_nom,_prev,_sala,_prec,_exi,id)
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql,datos)
+    conn.commit()
+    return redirect('/ticket')
 
 # Ruta de inicio de seccion correcto como admin
 @app.route("/Loginadmin")

@@ -264,7 +264,6 @@ def mostcarr():
 
 @app.route('/destroycarro/<nombre>')
 def destroycarro(nombre):
-    
     conn=mysql.connect()
     cursor=conn.cursor()
     cursor.execute("DELETE FROM carrito WHERE Producto=%s", (nombre,))
@@ -382,7 +381,10 @@ def generatickete():
 
 @app.route('/mostrar_ticket/<int:id>')
 def mostrar_ticket(id):
-
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"]=="cliente":
+        return redirect('/')
     conn=mysql.connect()
     cursor = conn.cursor()
     cursor.execute("SELECT archivo FROM ticket WHERE id = %s",(id))

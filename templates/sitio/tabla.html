@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Tabla</title>
-    <style>
-        pre {
-            white-space: pre-wrap;
-        }
-    </style>
-</head>
-<body>
-    <pre>{{ contenido }}</pre>
-</body>
-</html>
+<link rel="stylesheet" href="{{url_for('static',filename='cs/ver.css')}}">
+{% include 'sitio/cabecera.html' %}
+
+<div class="d-flex justify-content-center align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6" id="min">
+                <div id="cajita" class="bg-light p-4">
+                    <pre>{{ contenido }}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'sitio/pie.html' %}

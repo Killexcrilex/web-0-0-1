@@ -1,0 +1,12 @@
+
+#min{
+    margin:.5% auto;
+}
+#cajita{
+    padding: 1rem;
+    border: .2rem solid rgb(17, 16, 16);
+}
+#cajita pre {
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+}

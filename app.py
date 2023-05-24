@@ -382,7 +382,10 @@ def generatickete():
 
 @app.route('/mostrar_ticket/<int:id>')
 def mostrar_ticket(id):
-
+    if not 'login' in session:
+        return redirect('/')
+    if session["rango"] == "cliente":
+        return redirect('/')
     conn=mysql.connect()
     cursor = conn.cursor()
     cursor.execute("SELECT archivo FROM ticket WHERE id = %s",(id))

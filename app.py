@@ -719,7 +719,6 @@ def act5():
     if session["rango"]=="cliente" or session["rango"]=="empleado":
         return redirect('/')
     id=request.form['id']
-    _nom=request.form['archivo']
     _prev=request.form['usuario']
     _sala=request.form['caducidad']
     _prec=request.form['estado']
@@ -728,8 +727,8 @@ def act5():
 
     #if _img.filename != '':
     #    _img.save(f"reTIEN\{_img.filename}")
-    sql="UPDATE ticket SET `archivo`=%s, `usuario`=%s, `caducidad`=%s, `estado`=%s, `correo`=%s WHERE id=%s ;"
-    datos=(_nom,_prev,_sala,_prec,_exi,id)
+    sql="UPDATE ticket SET `estado`=%s WHERE id=%s ;"
+    datos=(_prec,id)
     conn=mysql.connect()
     cursor=conn.cursor()
     cursor.execute(sql,datos)

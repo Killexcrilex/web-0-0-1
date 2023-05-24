@@ -1,4 +1,4 @@
 Producto            Precio    Cantidad  Total     
-Pepsi 600ml         18        5         90        
+Fresca 600 ml       20        1         20        
 
-Total a Pagar       $90.00     
+Total a Pagar       $20.00     

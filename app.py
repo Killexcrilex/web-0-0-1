@@ -245,14 +245,20 @@ def mostcarr():
         cantidad = item[3]
         
         # Obtener el precio actual del producto desde la tabla "productos"
-        sql_precio = "SELECT preciodeventa FROM `productos` WHERE Nombre = %s;"
+        sql_precio = "SELECT * FROM `productos` WHERE Nombre = %s;"
         cursor.execute(sql_precio, (producto,))
-        precio_actual = cursor.fetchone()[0]
+        producto_info = cursor.fetchone()
+        precio_actual = producto_info[3]
+        cantidad_disponible = producto_info[4]
+        
+        # Verificar si hay suficiente cantidad de producto
+        if cantidad > cantidad_disponible:
+            cantidad = cantidad_disponible  # Establecer la cantidad máxima disponible
         
         # Actualizar el precio en el registro del carrito
         nuevo_total = int(precio_actual) * int(cantidad)
-        sql_update_precio = "UPDATE `carrito` SET Precio = %s, Total = %s WHERE Producto = %s AND Correo = %s;"
-        cursor.execute(sql_update_precio, (precio_actual, nuevo_total, producto, session["correo"]))
+        sql_update_precio = "UPDATE `carrito` SET Precio = %s, Total = %s, Cantidad = %s WHERE Producto = %s AND Correo = %s;"
+        cursor.execute(sql_update_precio, (precio_actual, nuevo_total, cantidad, producto, session["correo"]))
         
         # Sumar al total
         suma_total += nuevo_total
@@ -277,16 +283,17 @@ def agregar_al_carrito():
     producto = request.form.get('producto')
     correo = session.get('correo')
     
-    # Obtener el precio actual del producto
+    # Obtener el precio actual y cantidad disponible del producto
     conn = mysql.connect()
     cursor = conn.cursor()
-    sql_select_precio = "SELECT preciodeventa FROM productos WHERE Nombre = %s"
-    cursor.execute(sql_select_precio, (producto))
+    sql_select_info = "SELECT preciodeventa, existencia FROM productos WHERE Nombre = %s"
+    cursor.execute(sql_select_info, (producto,))
     result = cursor.fetchone()
     if result:
         precio = result[0]
-        cantidad = request.form.get('cantidad')
-        total = int(precio) * int(cantidad)
+        cantidad_disponible = result[1]
+        cantidad = int(request.form.get('cantidad'))
+        total = int(precio) * cantidad
 
         # Verificar si hay datos para el producto y correo especificados
         sql_select = "SELECT * FROM carrito WHERE Producto = %s AND Correo = %s"
@@ -296,11 +303,16 @@ def agregar_al_carrito():
         if result:
             # Actualizar la cantidad del registro existente
             cantidad_actual = int(result[3])
-            nueva_cantidad = cantidad_actual + int(cantidad)
+            nueva_cantidad = cantidad_actual + cantidad
             nuevo_total = int(precio) * nueva_cantidad
+             # Verificar si hay suficiente cantidad de producto
+            if nueva_cantidad > cantidad_disponible:
+                nueva_cantidad = cantidad_disponible  # Establecer la cantidad máxima disponible
+                nuevo_total = int(precio) * nueva_cantidad
+
         
-            sql_update = "UPDATE carrito SET Precio=%s, Cantidad = %s, Total = %s WHERE Producto = %s AND Correo = %s"
-            update_values = (precio,nueva_cantidad, nuevo_total, producto, correo)
+            sql_update = "UPDATE carrito SET Precio=%s, Cantidad=%s, Total=%s WHERE Producto=%s AND Correo=%s"
+            update_values = (precio, nueva_cantidad, nuevo_total, producto, correo)
             cursor.execute(sql_update, update_values)
             conn.commit()
         else:
@@ -312,6 +324,7 @@ def agregar_al_carrito():
         
     cursor.close()
     return redirect('/mostcarr')
+
 
 @app.route('/generatickete', methods=['POST'])
 def generatickete():

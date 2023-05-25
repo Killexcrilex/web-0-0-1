@@ -39,7 +39,7 @@
                               class="form-control" name="Existen" id="EXI" aria-describedby="helpId" placeholder="Nombre usuario">
                           </div>
                           <div class="mb-3">
-                            <label for="Correo" class="form-label col-3">Correo electronico</label>
+                            <label for="Correo" class="form-label">Correo electronico</label>
                             <input type="email"
                               class="form-control" name="Rest" id="RES" aria-describedby="helpId" placeholder="Correo del trabajador">
                           </div>
@@ -73,7 +73,7 @@
                                                     <th>Horario</th>
                                                     <th>Salario</th>
                                                     <th>Usuario</th>
-                                                    <th>Correo</th>
+                                                    <th class="col-3" >Correo</th>
                                                     {% if session['rango']!="empleado" %}
                                                     <th>Acciones</th>
                                                     {% endif %}

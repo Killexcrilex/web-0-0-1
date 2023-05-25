@@ -188,13 +188,12 @@ def agretra():
         # Generar una nueva ID que no esté presente en la base de datos
         new_id = None
         while True:
-            new_id = random.randint(1, 99999999999)
-            cursor.execute(query_check_id, (new_id))
-            count_nueva_id = cursor.fetchone()[0]
-            if count_nueva_id == 0:
+            new_id = random.randint(1,99999999999)
+            cursor.execute(query_check_id, (new_id,))
+            count_nueva_id = cursor.fetchone()
+            if count_nueva_id is None:
                 codigo = new_id  # Asignar la nueva ID única
                 break
-
     # Verificar si el correo ya existe en la base de datos
     query_check_correo = "SELECT * FROM trabajador WHERE correo = %s"
     cursor.execute(query_check_correo, (Correo))
@@ -600,12 +599,12 @@ def edide(id):
     conn.commit()
     return render_template('invet/edide.html',productos=productos)
 
-#Editar trabajador
+#Editar Ticket
 @app.route('/edidti/<int:id>')
 def edidti(id):
     if not 'login' in session:
         return redirect('/')
-    if session["rango"]=="cliente" or session["rango"]=="empleado":
+    if session["rango"]=="cliente":
         return redirect('/admin')
     conn=mysql.connect()
     cursor=conn.cursor()
@@ -728,8 +727,7 @@ def act4():
 def act5():
     if not 'login' in session:
         return redirect('/')
-    
-    if session["rango"]=="cliente" or session["rango"]=="empleado":
+    if session["rango"]=="cliente":
         return redirect('/')
     id=request.form['id']
     _prev=request.form['usuario']

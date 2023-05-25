@@ -13,9 +13,9 @@
              action="/act5"
 
              {% endif %}
-             {% if session[ 'rango' ]==0 %}
+             {% if session[ 'rango' ]=="empleado" %}
                
-             action="/act2"
+             action="/act5"
 
              {% endif %}
              
@@ -43,8 +43,10 @@
                   </div>
                   <div class="mb-3">
                     <label for="estado" class="form-label">Estado</label>
-                    <input type="text"  value="{{ producto[4] }}"
-                      class="form-control" name="estado" id="Exi" aria-describedby="helpId" placeholder="Estado del ticket"  min="0" maxlength="11">
+                    <select class="form-control" name="estado" id="estado" aria-describedby="helpId">
+                      <option name="estado" value="Activo" {% if 'Activo' == producto[4] %}selected{% endif %}>Activo</option>
+                      <option name="estado" value="Inactivo" {% if 'Inactivo' == producto[4] %}selected{% endif %}>Inactivo</option>
+                    </select>
                   </div>
                    <div class="mb-3">
                      <label for="correo" class="form-label">Correo</label>

@@ -1,6 +1,9 @@
 
 #min{
+    padding: 1rem;
     margin:.5% auto;
+    border: .2rem solid black;
+    background-color: white;
 }
 #cajita{
     padding: 1rem;

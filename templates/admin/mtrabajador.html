@@ -16,40 +16,51 @@
                         <div class="mb-3">
                           <label for="ID" class="form-label">ID</label>
                           <input type="number"
-                            class="form-control"  name="Codigo" id="CD" aria-describedby="helpId" placeholder="ID del trabajador">
+                            class="form-control" required  name="Codigo" id="CD" aria-describedby="helpId" placeholder="ID del trabajador">
                         </div>
                         <div class="mb-3">
                             <label for="Nombre" class="form-label">Nombre</label>
                             <input type="text"
-                              class="form-control" name="Nombre" id="NOM" aria-describedby="helpId" placeholder="Nombre del trabajador">
+                              class="form-control" required name="Nombre" id="NOM" aria-describedby="helpId" placeholder="Nombre del trabajador">
                           </div>
                           <div class="mb-3">
                             <label for="Horario" class="form-label">Horario</label>
-                            <input type="text" 
-                              class="form-control" name="Prec" id="PC" aria-describedby="helpId" placeholder="Horario del trabajador" oninput="validateInput()">
+                            <select class="form-control" required name="Prec" id="PC" aria-describedby="helpId" onchange="validateInput()">
+                              <option value="">Selecciona el horario</option>
+                              <option name="Prec" id="PC" value="1 hora">1 hora</option>
+                              <option name="Prec" id="PC" value="2 horas">2 horas</option>
+                              <option name="Prec" id="PC" value="3 horas">3 horas</option>
+                              <option name="Prec" id="PC" value="4 horas">4 horas</option>
+                              <option name="Prec" id="PC" value="5 horas">5 horas</option>
+                              <option name="Prec" id="PC" value="6 horas">6 horas</option>
+                              <option name="Prec" id="PC" value="7 horas">7 horas</option>
+                              <option name="Prec" id="PC" value="8 horas">8 horas</option>
+                              <option name="Prec" id="PC" value="9 horas">9 horas</option>
+                            </select>
                           </div>
+                          
                           <div class="mb-3">
-                            <label for="Salario" class="form-label">Salario</label>
+                            <label for="Salario" class="form-label">Salario por hora</label>
                             <input type="number"
-                              class="form-control" name="Prev" id="PV" aria-describedby="helpId" placeholder="Salario del trabajador">
+                              class="form-control" required name="Prev" id="PV" aria-describedby="helpId" placeholder="Salario del trabajador">
                           </div>
                           <div class="mb-3">
                             <label for="Usuario" class="form-label">Usuario</label>
                             <input type="text"
-                              class="form-control" name="Existen" id="EXI" aria-describedby="helpId" placeholder="Nombre usuario">
+                              class="form-control" required name="Existen" id="EXI" aria-describedby="helpId" placeholder="Nombre usuario">
                           </div>
                           <div class="mb-3">
                             <label for="Correo" class="form-label">Correo electronico</label>
                             <input type="email"
-                              class="form-control" name="Rest" id="RES" aria-describedby="helpId" placeholder="Correo del trabajador">
+                              class="form-control" required name="Rest" id="RES" aria-describedby="helpId" placeholder="Correo del trabajador">
                           </div>
                           <div class="mb-3">
                             <label for="Contra" class="form-label">Contraseña</label>
                             <input type="password" 
-                              class="form-control" name="Contra" id="imagen" aria-describedby="helpId" placeholder="Contraseña">
+                              class="form-control" required name="Contra" id="imagen" aria-describedby="helpId" placeholder="Contraseña">
                           </div>
                           
-                          <button type="submit" class="btn btn-primary" >Agregar</button>
+                          <button type="submit"  class="btn btn-primary" >Agregar</button>
                     </form>
 
                 </div>
@@ -71,7 +82,7 @@
                                                     <th>ID</th>
                                                     <th>Nombre</th>
                                                     <th>Horario</th>
-                                                    <th>Salario</th>
+                                                    <th>Salario por hora</th>
                                                     <th>Usuario</th>
                                                     <th class="col-3" >Correo</th>
                                                     {% if session['rango']!="empleado" %}

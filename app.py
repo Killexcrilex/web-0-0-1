@@ -89,6 +89,8 @@ def agrepro():
     
     if _img.filename != '':
         _img.save(f"reTIEN\{_img.filename}")
+    else:
+       return redirect('/agregar')
         
     query_insert = "INSERT INTO productos (codigo, Nombre, preciodecompra, preciodeventa, existencia, restriccion, imagen) VALUES (%s, %s, %s, %s, %s, %s, %s)"
     insert_values = (codigo, nombre, precio_compra, precio_venta, existencias, restriccion, _img.filename)
@@ -397,11 +399,15 @@ def mostrar_ticket(id):
         return redirect('/')
     if session["rango"]=="cliente":
         return redirect('/')
-    conn=mysql.connect()
+    
+    conn = mysql.connect()
     cursor = conn.cursor()
-    cursor.execute("SELECT archivo FROM ticket WHERE id = %s",(id))
+    cursor.execute("SELECT archivo FROM ticket WHERE id = %s", (id,))
     resultado = cursor.fetchone()
-    return render_template('sitio/tabla.html', contenido=resultado[0] if resultado else None)
+    
+    contenido = resultado[0] if resultado else None
+    
+    return render_template('sitio/tabla.html', contenido=contenido)
 
 #Agregar 1.
 @app.route("/agregar")

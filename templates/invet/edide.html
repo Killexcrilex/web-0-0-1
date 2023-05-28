@@ -32,12 +32,22 @@
                        class="form-control" name="nombre" id="NOM" aria-describedby="helpId" placeholder="Nombre del empleado" maxlength="50">
                    </div>
                    <div class="mb-3">
-                     <label for="Horario" class="form-label">Horario</label>
-                     <input type="text"  value="{{ producto[2] }}"
-                       class="form-control" name="horario" id="Prec" aria-describedby="helpId" placeholder="Horario del empleado" min="0" maxlength="11">
-                   </div>
+                    <label for="Horario" class="form-label">Horas de trabajo</label>
+                    <select class="form-control" required name="horario" id="Prec" aria-describedby="helpId" onchange="validateInput()">
+                      <option value="">Selecciona el horario</option>
+                      <option name="horario" id="Prec" value="1 hora" {% if producto[2] == '1 hora' %}selected{% endif %}>1 hora</option>
+                      <option name="horario" id="Prec" value="2 horas" {% if producto[2] == '2 horas' %}selected{% endif %}>2 horas</option>
+                      <option name="horario" id="Prec" value="3 horas" {% if producto[2] == '3 horas' %}selected{% endif %}>3 horas</option>
+                      <option name="horario" id="Prec" value="4 horas" {% if producto[2] == '4 horas' %}selected{% endif %}>4 horas</option>
+                      <option name="horario" id="Prec" value="5 horas" {% if producto[2] == '5 horas' %}selected{% endif %}>5 horas</option>
+                      <option name="horario" id="Prec" value="6 horas" {% if producto[2] == '6 horas' %}selected{% endif %}>6 horas</option>
+                      <option name="horario" id="Prec" value="7 horas" {% if producto[2] == '7 horas' %}selected{% endif %}>7 horas</option>
+                      <option name="horario" id="Prec" value="8 horas" {% if producto[2] == '8 horas' %}selected{% endif %}>8 horas</option>
+                      <option name="horario" id="Prec" value="9 horas" {% if producto[2] == '9 horas' %}selected{% endif %}>9 horas</option>
+                    </select>
+                  </div>                  
                    <div class="mb-3">
-                    <label for="Salario" class="form-label">Salario</label>
+                    <label for="Salario" class="form-label">Salario por hora</label>
                     <input type="number"  value="{{ producto[3] }}"
                       class="form-control" name="salario" id="Prev" aria-describedby="helpId" placeholder="Salario del empelado"  min="0" maxlength="11">
                   </div>
